@@ -14,7 +14,7 @@ class BestSeller extends StatelessWidget {
     return BlocProvider(
       create: (context) => GetProductsCubit()
         ..getProduct(
-         getProductesEndpoint: "products"
+         getProductesEndpoint: "products?category_id="
         ),
       child: BlocBuilder<GetProductsCubit, GetProductsState>(
         builder: (context, state) {
@@ -22,8 +22,9 @@ class BestSeller extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state is GetProductsError) {
             return Center(child: Text(state.message ?? ""));
-          } else if (state is GetProductsSuccess) {
-            final products = state.productModel.data!.products;
+          }
+          else if (state is GetProductsSuccess) {
+            final products = state.products;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
@@ -42,12 +43,12 @@ class BestSeller extends StatelessWidget {
                   ),
                   SizedBox(height: 20.h),
                   SizedBox(
-                    height: 337,
-                    width: double.infinity,
-                    child: ListView.separated(
+                    height: 380,
+                    // width: double.infinity,
+                    child: ListView.builder(
+                      shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: products!.length,
-                      separatorBuilder: (_, __) => SizedBox(width: 10.w),
                       itemBuilder: (context, index) {
                         final product = products[index];
                         return Items(product: product);

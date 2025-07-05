@@ -16,6 +16,7 @@ class SecondCartScreen extends StatefulWidget {
 
 class _SecondCartScreenState extends State<SecondCartScreen> {
   bool _isFirstContainerVisible = true;
+  String ? paymentSelectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +27,7 @@ class _SecondCartScreenState extends State<SecondCartScreen> {
         child: Column(
           children: [
             const CustomeAppBar(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Color(0XFF13A9CA),
-                    ),
-                  ),
-                  Text(
-                    "اتمام الطلب",
-                    style: GoogleFonts.cairo(
-                      textStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0XFF94CF29),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
+             Expanded(
               child: _isFirstContainerVisible
                   ? PaymentMethodContainer(
                       initialVisibility: true,
@@ -60,15 +35,19 @@ class _SecondCartScreenState extends State<SecondCartScreen> {
                         setState(() {
                           _isFirstContainerVisible = false;
                         });
-                      },
+                      }, selectedValue: (String value) {
+                paymentSelectedValue= value;
+              },
                     )
                   : DetermineDataContainer(
                       initialVisibility: false,
-                      onButtonPressed: () {
-                        setState(() {
-                          _isFirstContainerVisible = true;
-                        });
-                      },
+                paymentSelectedValue: paymentSelectedValue!,
+                //
+                // onButtonPressed: () {
+                //         setState(() {
+                //           _isFirstContainerVisible = true;
+                //         });
+                //       },
                     ),
             ),
           ],

@@ -9,7 +9,8 @@ final class GetAmountLoading extends GetAmountState {}
 
 final class GetAmountSuccess extends GetAmountState {
 String amount;
-GetAmountSuccess({required this.amount});
+String count;
+GetAmountSuccess({required this.amount,required this.count,});
 }
 
 final class GetAmountError extends GetAmountState {

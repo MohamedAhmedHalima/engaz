@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:engaz/core/network/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:redacted/redacted.dart';
 
+import '../../../core/network/shared.dart';
 import '../cubits/get_all_category/getallcategory_cubit.dart';
 import '../screens/spacific_categorie_screen.dart';
 
@@ -26,11 +28,7 @@ class Categories extends StatelessWidget {
                 SnackBar(content: Text(state.message ?? "حدث خطأ")),
               );
             }
-            else if (state is GetallcategorySuccess) {
-              // Cache the fetched categories if the response is successful
-              await SharedPreferencesHelper.saveCategories(
-                  state.getAllCategoryModel.data!.data);
-            }
+
           },
           builder: (context, state) {
             if (state is GetallcategoryLoading) {
@@ -51,46 +49,11 @@ class Categories extends StatelessWidget {
               );
             }
 
-            if (state is GetallcategoryError) {
-              return FutureBuilder<List<dynamic>?>(
-                future: SharedPreferencesHelper.getCategories(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                    final cachedCategories = snapshot.data!;
-                    return _buildCategoryList(cachedCategories);
-                  }
-                  return Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          "الفئات",
-                          style: GoogleFonts.cairo(
-                              textStyle: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
-                      Center(
-                        child: Text(
-                          state.message ?? "Error",
-                          style: GoogleFonts.cairo(
-                              fontSize: 14.sp, color: Colors.red),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
+
 
             if (state is GetallcategorySuccess) {
-              final categories = state.getAllCategoryModel.data!.data[0].subcategories;
-              if (categories.isEmpty) {
+              final categories = state.getAllCategoryModel.data!.data![0].subcategories;
+              if (categories!.isEmpty) {
                 return Column(
                   children: [
                     Align(
@@ -114,20 +77,8 @@ class Categories extends StatelessWidget {
               }
               return _buildCategoryList(categories);
             }
+            return const SizedBox.shrink();
 
-            return FutureBuilder<List<dynamic>?>(
-              future: SharedPreferencesHelper.getCategories(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final cachedCategories = snapshot.data!;
-                  return _buildCategoryList(cachedCategories);
-                }
-                return const SizedBox();
-              },
-            );
           },
         ),
       ),
@@ -182,13 +133,28 @@ class Categories extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       category.image!=null?
-                      Image.network(
-                        category.image,
-                        height: 80,
+                      CachedNetworkImage(
+                        cacheManager: MyImageCacheManager.instance,   imageUrl:category.image ??"",
+                        // width: 60.r,
+                        height: 80.h,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.error),
-                      ):Image.asset(
+                        placeholder: (context, url) =>  Center(
+                          child: SizedBox(
+                            width: 24.r,
+                            height: 24.r,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      )
+                      // Image.network(
+                      //   category.image,
+                      //   height: 80,
+                      //   fit: BoxFit.cover,
+                      //   errorBuilder: (context, error, stackTrace) =>
+                      //       const Icon(Icons.error),
+                      // )
+                          :Image.asset(
                         "assets/images/logo.png",
                         height: 80,
                         fit: BoxFit.cover,

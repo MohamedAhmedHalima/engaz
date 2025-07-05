@@ -1,15 +1,18 @@
+import 'package:engaz/features/as_you_like_order/screens/all_polices_screen.dart';
 import 'package:engaz/features/cart/widgets/tracking_bar.dart';
+import 'package:engaz/features/home/screens/main_export.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PaymentMethodContainer extends StatefulWidget {
   final bool initialVisibility;
   final VoidCallback onButtonPressed;
+  final void Function(String value) selectedValue;
 
   const PaymentMethodContainer({
     Key? key,
     required this.initialVisibility,
-    required this.onButtonPressed,
+    required this.onButtonPressed, required this.selectedValue,
   }) : super(key: key);
 
   @override
@@ -21,46 +24,52 @@ class _PaymentMethodContainerState extends State<PaymentMethodContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const TrackingBarInPayment(),
-            ..._buildRadioRows([
-              "كاش عند التوصيل",
-              "بطاقة الإئتمان",
-              "فورى",
-              "انستا باى",
-              "اورانج كاش",
-              "فودافون كاش",
-              "إتصالات كاش",
-            ]),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: widget.onButtonPressed,
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color(0xFF13A9CA),
-                    minimumSize: const Size(double.infinity, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+    return  SingleChildScrollView(
+      child: Column(
+        children: [
+          const TrackingBarInPayment(),
+          ..._buildRadioRows([
+            "كاش عند التوصيل",
+            // "بطاقة الإئتمان",
+            // "فورى",
+            "انستا باى",
+            "اورانج كاش",
+            "فودافون كاش",
+            "إتصالات كاش",
+          ]),
+          SizedBox(height: 10.h,),
+          Text("فى خدمات الدفع الالكترونى يتحمل العميل 1% خدمة السحب",
+            style: GoogleFonts.cairo(
+            fontSize: 10,
+            fontWeight: FontWeight.w400,
+            color: Colors.red,
+          ),
+          ),
+          SizedBox(height: 10.h,),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed:selectedValue!=null ?widget.onButtonPressed:null,
+                style: TextButton.styleFrom(
+                  backgroundColor:selectedValue!=null ? const Color(0xFF13A9CA):Colors.grey,
+                  minimumSize: const Size(double.infinity, 48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text(
-                    "التالى",
-                    style: GoogleFonts.cairo(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
+                ),
+                child: Text(
+                  "التالى",
+                  style: GoogleFonts.cairo(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -85,6 +94,7 @@ class _PaymentMethodContainerState extends State<PaymentMethodContainer> {
               onChanged: (value) {
                 setState(() {
                   selectedValue = value;
+                  widget.selectedValue(selectedValue!);
                 });
               },
             ),

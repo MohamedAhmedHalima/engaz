@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:engaz/core/network/api.dart';
 import 'package:engaz/core/network/shared_preferences.dart';
 import 'package:engaz/features/home/models/get_sub_category_model.dart';
@@ -42,12 +43,24 @@ class GetSubCategoryCubit extends Cubit<GetSubCategoryState> {
         emit(GetSubCategoryError(
             message: 'No SubCategories found for this user.'));
       } else {
-        emit(GetSubCategoryError(
-            message: 'Unexpected error: ${response?.statusCode}'));
-      }
-    } catch (e) {
-      emit(GetSubCategoryError(
-          message: 'Failed to fetch SubCategories: ${e.toString()}'));
-    }
+             emit(GetSubCategoryError(message: "الخدمة غير متاحة حاليًا، جرّب مرة تانية لاحقًا."));
+        }
+        } on DioException catch (e) {
+        if (e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout ||
+        e.type == DioExceptionType.unknown) {
+        // ❌ دي غالبًا مشكلة إنترنت
+        emit(GetSubCategoryError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+        } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+        // 🔥 مشكلة من السيرفر نفسه
+        emit(GetSubCategoryError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+        } else {
+        // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+        emit(GetSubCategoryError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+        }
+        } catch (e) {
+          // ✴️ fallback لو حصل استثناء غير معروف
+          emit(GetSubCategoryError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
+        }
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'bundles_screen.dart';
+
 class Abbreviation extends StatelessWidget {
   const Abbreviation({super.key});
 
@@ -33,7 +35,7 @@ class Abbreviation extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OfferProduct(titleName: 'باقات التوفير', getProductesEndpoint: "products?has_discount=1"),
+                    builder: (context) => BundlesScreen(titleName: 'باقات التوفير',),
                   ),
                 );
               },
@@ -92,7 +94,7 @@ class Abbreviation extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OfferProduct(titleName: ' منتجات جديدة', getProductesEndpoint: "products"),
+                    builder: (context) => OfferProduct(titleName: ' منتجات جديدة', getProductesEndpoint: "products?category_id="),
                   ),
                 );
               },

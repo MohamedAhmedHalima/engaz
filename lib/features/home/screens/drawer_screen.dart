@@ -295,313 +295,313 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped6 = !_isTapped6;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => WalletScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped6
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage(
-                            "assets/images/black_wallet.png",
-                          ),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "  محفظة العميل",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped6
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped7 = !_isTapped7;
-                    });
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TargetScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped7
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage("assets/images/chart.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "   اهداف العميل",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped7
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped8 = !_isTapped8;
-                    });
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PointsScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped8
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image:
-                              const AssetImage("assets/images/ticket-star.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "النقاط",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped8
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped9 = !_isTapped9;
-                    });
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => InstructionScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped9
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage(
-                              "assets/images/Frame 859 (1).png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "التعامل الاجل",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped9
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped10 = !_isTapped10;
-                    });
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AllCategoriosScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped10
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage(
-                              "assets/images/hugeicons_complaint.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        " الشكاوى و الاقتراحات",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped10
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped11 = !_isTapped11;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AllPolicesScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped11
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage(
-                              "assets/images/as_you_like_icon.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "اوردرك على كيفك",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped11
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped6 = !_isTapped6;
+                //     });
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => WalletScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped6
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage(
+                //             "assets/images/black_wallet.png",
+                //           ),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "  محفظة العميل",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped6
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped7 = !_isTapped7;
+                //     });
+                //     Navigator.pop(context);
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => TargetScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped7
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage("assets/images/chart.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "   اهداف العميل",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped7
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped8 = !_isTapped8;
+                //     });
+                //     Navigator.pop(context);
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => PointsScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped8
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image:
+                //               const AssetImage("assets/images/ticket-star.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "النقاط",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped8
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped9 = !_isTapped9;
+                //     });
+                //     Navigator.pop(context);
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => InstructionScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped9
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage(
+                //               "assets/images/Frame 859 (1).png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "التعامل الاجل",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped9
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped10 = !_isTapped10;
+                //     });
+                //
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => AllCategoriosScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped10
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage(
+                //               "assets/images/hugeicons_complaint.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         " الشكاوى و الاقتراحات",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped10
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped11 = !_isTapped11;
+                //     });
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => AllPolicesScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped11
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage(
+                //               "assets/images/as_you_like_icon.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "اوردرك على كيفك",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped11
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(
                   height: 10.h,
                 ),
@@ -661,108 +661,108 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   width: double.infinity,
                   color: const Color(0XFF7A7A7A),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped13 = !_isTapped13;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotificationsScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped13
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage(
-                              "assets/images/notification.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        " الإشعارات",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped13
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped14 = !_isTapped14;
-                    });
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MyPurchasesScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped14
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage("assets/images/bag.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "مشترياتى",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped14
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped13 = !_isTapped13;
+                //     });
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => NotificationsScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped13
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage(
+                //               "assets/images/notification.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         " الإشعارات",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped13
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped14 = !_isTapped14;
+                //     });
+                //
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => MyPurchasesScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped14
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage("assets/images/bag.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "مشترياتى",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped14
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
               ],
             ),
           ),

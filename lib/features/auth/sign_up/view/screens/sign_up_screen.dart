@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isFirstGovernorate=true;
   late List<DropdownModel> listGovernorate;
   bool isFirstBusinessTypes=true;
-    List<DropdownModel> listFirstBusinessTypes=[];
+  late List<DropdownModel> listFirstBusinessTypes  ;
   bool isFirstCities=true;
    List<DropdownModel> listCities=[];
   bool isFirstCounties=true;
@@ -64,19 +64,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
+    super.initState();
     _initLocation();
     GetGovernmentCubit.get(context).getGovernment();
     GetBusinessTypesCubit.get(context).getBusinessTypes();
-    super.initState();
   }
+
   Future<void> _initLocation() async {
     try {
-      // 1. Check service
+      // 1. تأكد أنّ خدمة الموقع مفعّلة
       if (!await Geolocator.isLocationServiceEnabled()) {
+        await Geolocator.openLocationSettings();
         throw 'Location services are disabled.';
       }
 
-      // 2. Check/request permission
+      // 2. تحقق واطلب الصلاحيات
       LocationPermission perm = await Geolocator.checkPermission();
       if (perm == LocationPermission.denied) {
         perm = await Geolocator.requestPermission();
@@ -85,16 +87,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       }
       if (perm == LocationPermission.deniedForever) {
+        await Geolocator.openAppSettings();
         throw 'Location permissions are permanently denied.';
       }
 
-      // 3. Get position
+      // 3. احصل على الموقع
       Position pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
       setState(() => _position = pos);
     } catch (e) {
-      print(_error);
+      print(e);
       setState(() => _error = e.toString());
     }
   }
@@ -178,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      },
                      builder: (context, state) {
                        if (state is BusinessTypesSuccess) {
-                         if(isFirstGovernorate)    {
+                         if(isFirstBusinessTypes)    {
                            listFirstBusinessTypes = [];
                            state.businessTypesModel.data!.forEach((element) {
                              listFirstBusinessTypes.add(DropdownModel(
@@ -272,6 +275,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        {
                          return DropDownSearchWidget(list: listCities, selected: (value) {
                            city = value;
+                           isFirstCounties=true;
                            GetCountiesCubit.get(context).getCounties(id: value);
                          }, labelText: 'المدينه',);
 
@@ -306,10 +310,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      },
                    ),
 
-                   // CustomTextFieldWithLabel(
-                   //   controller: location,
-                   //   labelText: 'العنوان',
-                   // ),
+                   CustomTextFieldWithLabel(
+                     controller: location,
+                     labelText: 'العنوان',
+                   ),
                    SizedBox(height: 20.h),
                    ElevatedButton(
                      style: ElevatedButton.styleFrom(

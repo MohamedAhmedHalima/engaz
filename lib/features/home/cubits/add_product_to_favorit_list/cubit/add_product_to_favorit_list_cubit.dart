@@ -26,10 +26,24 @@ class AddProductToFavoritListCubit extends Cubit<AddProductToFavoritListState> {
         emit(AddProductToFavoritListSuccess());
       }
       else {
-        emit(AddProductToFavoritListError(message: "يوجد خطأ من السرفر"));
+         emit(AddProductToFavoritListError(message: "الخدمة غير متاحة حاليًا، جرّب مرة تانية لاحقًا."));
       }
-    } catch (error) {
-      emit(AddProductToFavoritListError(message: error.toString()));
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.unknown) {
+        // ❌ دي غالبًا مشكلة إنترنت
+        emit(AddProductToFavoritListError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+      } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+        // 🔥 مشكلة من السيرفر نفسه
+        emit(AddProductToFavoritListError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+      } else {
+        // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+        emit(AddProductToFavoritListError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+      }
+    } catch (e) {
+      // ✴️ fallback لو حصل استثناء غير معروف
+      emit(AddProductToFavoritListError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
     }
   }
   Future<void> removeToFavoritList({required int? productId}) async {
@@ -44,10 +58,56 @@ class AddProductToFavoritListCubit extends Cubit<AddProductToFavoritListState> {
       }
 
       else {
-        emit(RemoveProductToFavoritListError(message: "يوجد خطأ من السرفر"));
+         emit(RemoveProductToFavoritListError(message: "الخدمة غير متاحة حاليًا، جرّب مرة تانية لاحقًا."));
       }
-    } catch (error) {
-      emit(RemoveProductToFavoritListError(message: error.toString()));
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.unknown) {
+        // ❌ دي غالبًا مشكلة إنترنت
+        emit(RemoveProductToFavoritListError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+      } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+        // 🔥 مشكلة من السيرفر نفسه
+        emit(RemoveProductToFavoritListError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+      } else {
+        // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+        emit(RemoveProductToFavoritListError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+      }
+    } catch (e) {
+      // ✴️ fallback لو حصل استثناء غير معروف
+      emit(RemoveProductToFavoritListError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
+    }
+  }
+  Future<void> removeAllFavoritList() async {
+    emit(RemoveALLFavoritListLoading());
+    try {
+      final response = await DioHelper.deleteData(
+          url: "wishlist/clean", );
+      if (response!.statusCode == 200) {
+        print('data SEND Request: ${jsonEncode(response.data)}');
+
+        emit(RemoveALLFavoritListSuccess());
+      }
+
+      else {
+        emit(RemoveALLFavoritListError(message: "الخدمة غير متاحة حاليًا، جرّب مرة تانية لاحقًا."));
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.unknown) {
+        // ❌ دي غالبًا مشكلة إنترنت
+        emit(RemoveALLFavoritListError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+      } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+        // 🔥 مشكلة من السيرفر نفسه
+        emit(RemoveALLFavoritListError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+      } else {
+        // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+        emit(RemoveALLFavoritListError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+      }
+    } catch (e) {
+      // ✴️ fallback لو حصل استثناء غير معروف
+      emit(RemoveALLFavoritListError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
     }
   }
 }

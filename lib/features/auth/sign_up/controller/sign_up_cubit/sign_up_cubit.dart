@@ -65,7 +65,7 @@ class SignUpCubit extends Cubit<SignUpState> {
         'governorate_id': governorate,
         'city_id': City,
         'county_id': District,
-        // 'location': location,
+        'location': location,
         'market_name': storeName,
         'activity_type': businessType,
         'password': password,
@@ -107,12 +107,12 @@ class SignUpCubit extends Cubit<SignUpState> {
       else {
         emit(SignUpError(
             message:
-                "Something went wrong : ${response.data["message"]}"));
+                "${response.data["message"]}"));
       }
 
     } catch (e) {
       print('Error: $e');
-      emit(SignUpError(message: "An error occurred: $e"));
+      emit(SignUpError(message: " $e"));
     }
   }
 
@@ -130,11 +130,11 @@ class GetGovernmentCubit extends Cubit<GovernoratesState> {
       if(response!.statusCode==200){
         emit(GovernoratesSuccess(governoratesModel: GovernoratesModel.fromJson(response.data)));
       }else{
-        emit(GovernoratesError(message:  "Something went wrong. Server returned: ${response.statusCode}"));
+        emit(GovernoratesError(message:  " ${response.statusCode}"));
       }
     }catch(error){
       print("Error : $error");
-      emit(GovernoratesError(message:  "Error : $error"));
+      emit(GovernoratesError(message:  "$error"));
 
     }
   }
@@ -147,11 +147,11 @@ class GetCitiesCubit extends Cubit<GetCitiesState> {
 
 
   Future<void> getCities({required int id}) async {
-    // final connectivity = await Connectivity().checkConnectivity();
-    // if (connectivity == ConnectivityResult.none) {
-    //   emit(CitiesError(message: "لا يوجد اتصال بالإنترنت"));
-    //   return;
-    // }
+    final connectivity = await Connectivity().checkConnectivity();
+    if (connectivity == ConnectivityResult.none) {
+      emit(CitiesError(message: "لا يوجد اتصال بالإنترنت"));
+      return;
+    }
     emit(CitiesLoading());
     try {
       final response = await DioHelper.getData(url: "cities/$id");
@@ -161,11 +161,11 @@ class GetCitiesCubit extends Cubit<GetCitiesState> {
       } else {
         emit(CitiesError(
             message:
-            "Something went wrong. Server returned: ${response?.statusCode}"));
+            "${response?.statusCode}"));
       }
     } catch (error) {
-      print("Error : $error");
-      emit(CitiesError(message: "Error : $error"));
+      print("$error");
+      emit(CitiesError(message: "$error"));
     }
   }
 }
@@ -190,11 +190,11 @@ class GetCountiesCubit extends Cubit<GetCountiesState> {
       } else {
         emit(CountiesError(
             message:
-            "Something went wrong. Server returned: ${response?.statusCode}"));
+            "${response?.statusCode}"));
       }
     } catch (error) {
-      print("Error : $error");
-      emit(CountiesError(message: "Error : $error"));
+      print("$error");
+      emit(CountiesError(message: " $error"));
     }
   }
 }
@@ -219,11 +219,11 @@ class GetBusinessTypesCubit extends Cubit<BusinessTypesState> {
       } else {
         emit(BusinessTypesError(
             message:
-            "Something went wrong. Server returned: ${response?.statusCode}"));
+            "${response?.statusCode}"));
       }
     } catch (error) {
-      print("Error : $error");
-      emit(BusinessTypesError(message: "Error : $error"));
+      print("$error");
+      emit(BusinessTypesError(message: "$error"));
     }
   }
 }

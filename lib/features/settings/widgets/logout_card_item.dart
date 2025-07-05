@@ -11,11 +11,16 @@ class LogoutCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(onTap: (){
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute<void>(builder: (BuildContext context) => LoginScreen()),
-            (Route<void> route) => false,
-      );
-      SharedPreferencesHelper.removeToken();
+
+      SharedPreferencesHelper.removeToken().then((value) {
+        SharedPreferencesHelper.removeUser().then((value) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute<void>(builder: (BuildContext context) => LoginScreen()),
+                (Route<void> route) => false,
+          );
+        });
+
+      });
     },child: Card(
       elevation: 5.0,
       color: Colors.white,

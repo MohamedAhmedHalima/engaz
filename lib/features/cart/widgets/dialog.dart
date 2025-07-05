@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../cubits/add_to_cart/cubit/add_to_cart_cubit.dart';
 Future<void> showCustomAlertDialogInCart(BuildContext context) async {
   return showDialog<void>(
     context: context,
@@ -69,6 +72,7 @@ Future<void> showCustomAlertDialogInCart(BuildContext context) async {
                       child: TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
+                          BlocProvider.of<AddProductToCartListCubit>(context).removeALLCartList();
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: const Color(0xFFD42828),

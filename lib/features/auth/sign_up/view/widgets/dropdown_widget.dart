@@ -6,8 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 class DropDownSearchWidget extends StatefulWidget {
   final List<DropdownModel> list;
   final String labelText;
+  final String? selectedItem;
   final Function(int  id) selected;
-  const DropDownSearchWidget({Key? key, required this.list, required this.selected, required this.labelText}) : super(key: key);
+  const DropDownSearchWidget({Key? key, required this.list, required this.selected, required this.labelText, this.selectedItem}) : super(key: key);
 
   @override
   State<DropDownSearchWidget> createState() => _DropDownSearchWidgetState();
@@ -42,15 +43,16 @@ class _DropDownSearchWidgetState extends State<DropDownSearchWidget> {
           SizedBox(height: 5.h),
           DropdownSearch<String>(
             key: dropDownKey,
-            items: (filter, infiniteScrollProps) => item,
+            selectedItem: widget.selectedItem,
+            items:   item,
             onChanged: (value) {
               print(widget.list[item.indexOf(value!)].id);
               widget.selected(widget.list[item.indexOf(value!)].id);
               // _getUserModel = state.model.result!.data![item.indexOf(value!)];
               // setState(() {});
             },
-            decoratorProps: DropDownDecoratorProps(
-              decoration: InputDecoration(
+            dropdownDecoratorProps:   DropDownDecoratorProps(
+              dropdownSearchDecoration:   InputDecoration(
                 // fillColor:CacheHelper.isDark?Colors.black: AppColors.white,
                 // labelText: AppLocalize.of(context)!.trans('Choose Emtinan Employee Here: '),
                 border: OutlineInputBorder(

@@ -1,4 +1,6 @@
+import 'package:engaz/features/home/cubits/add_product_to_favorit_list/cubit/add_product_to_favorit_list_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,6 +8,7 @@ import '../../home/screens/drawer_screen.dart';
 import '../../home/widgets/app_bar.dart';
 import '../../home/widgets/custome_search_bar.dart';
 import '../../home/widgets/custome_slider.dart';
+import '../cubits/get_all_favourite_list/cubit/get_all_favourite_list_cubit.dart';
 import '../widgets/card_item_for_favorit.dart';
 import '../widgets/dialg.dart';
 
@@ -38,20 +41,33 @@ class FavoriteScreen extends StatelessWidget {
                           textStyle: TextStyle(
                               fontSize: 20.sp, fontWeight: FontWeight.w500)),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        showCustomAlertDialog(context);
-                      },
-                      child: Text("مسح الكل",
-                          style: GoogleFonts.cairo(
-                              textStyle: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0XFFD42828),
-                            decoration: TextDecoration.underline,
-                            decorationColor: const Color(0XFFD42828),
-                          ))),
-                    ),
+                    BlocConsumer<AddProductToFavoritListCubit, AddProductToFavoritListState>(
+                        listener: (context, state) {
+                          if (state is RemoveALLFavoritListSuccess) {
+                            context
+                              .read<GetAllFavouriteListCubit>().getFavouriteList();
+                          }
+                        }, builder: (context, state) {
+                      if (state is RemoveALLFavoritListLoading) {
+                        return CircularProgressIndicator();
+                      }
+                      return  GestureDetector(
+                        onTap: () {
+                          showCustomAlertDialog(context);
+                        },
+                        child: Text("مسح الكل",
+                            style: GoogleFonts.cairo(
+                                textStyle: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0XFFD42828),
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: const Color(0XFFD42828),
+                                ))),
+                      );
+                    }),
+
+
                   ],
                 ),
               ),

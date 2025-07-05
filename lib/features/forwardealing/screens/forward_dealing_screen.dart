@@ -48,7 +48,7 @@ class ForwardDealingScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const CustomeAppBar(),
-                  const CustomeSearchBar(),
+                    CustomeSearchBar(),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(

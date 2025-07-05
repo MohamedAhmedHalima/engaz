@@ -27,7 +27,7 @@ class _TargetScreenState extends State<TargetScreen> {
         child: Column(
           children: [
             const CustomeAppBar(),
-            const CustomeSearchBar(),
+              CustomeSearchBar(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
               child: Align(

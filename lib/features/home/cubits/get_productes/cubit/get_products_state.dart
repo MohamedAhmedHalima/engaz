@@ -1,18 +1,26 @@
 part of 'get_products_cubit.dart';
 
 @immutable
-sealed class GetProductsState {}
+abstract class GetProductsState {}
 
-final class GetProductsInitial extends GetProductsState {}
+class GetProductsInitial extends GetProductsState {}
 
-final class GetProductsLoading extends GetProductsState {}
+class GetProductsLoading extends GetProductsState {}
 
-final class GetProductsSuccess extends GetProductsState {
-  ProductModel productModel;
-  GetProductsSuccess({required this.productModel});
+class GetProductsSuccess extends GetProductsState {
+  final List<Products> products;
+  GetProductsSuccess({required this.products});
 }
 
-final class GetProductsError extends GetProductsState {
+class GetProductsUpdateLoading extends GetProductsState {}
+class GetProductsUpdateEmpty extends GetProductsState {}
+
+class GetProductsUpdateSuccess extends GetProductsState {
+  final List<Products> products;
+  GetProductsUpdateSuccess({required this.products});
+}
+
+class GetProductsError extends GetProductsState {
   final String? message;
-  GetProductsError({required this.message});
+  GetProductsError({this.message});
 }

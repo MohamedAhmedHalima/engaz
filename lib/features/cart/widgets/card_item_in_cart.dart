@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../model/cart_model.dart';
 class CardItemInCart extends StatefulWidget {
   final CartItem product;
-  const CardItemInCart({super.key, required this.product});
+  const CardItemInCart({super.key,  required this.product});
 
   @override
   State<CardItemInCart> createState() => _CardItemInCartState();
@@ -31,11 +31,12 @@ class _CardItemInCartState extends State<CardItemInCart> {
               )),
           child: Column(
             children: [
-              ProductNameAndImageAndDeletIcon(product: widget.product.product!,),
+              ProductNameAndImageAndDeletIcon(product: widget.product!.product!,),
               SizedBox(
                 height: 5.h,
               ),
-              PluseAndMinusPuttons(product: widget.product,),
+               PluseAndMinusPuttons(                            limit:  widget.product.product!.limit??0,
+                 product: widget.product.product!,isCard: true, quantity:  widget.product.quantity!, unitId:  widget.product.unit!.id!,),
               SizedBox(
                 height: 5.h,
               ),

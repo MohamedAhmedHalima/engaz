@@ -18,6 +18,18 @@ AddProductToCartListError({required this.message});
 final class AddProductToCartListSuccess
 extends AddProductToCartListState {}
 
+final class AddBundleToCartListLoading
+extends AddProductToCartListState {}
+
+final class AddBundleToCartListError extends AddProductToCartListState {
+final String? message;
+
+AddBundleToCartListError({required this.message});
+}
+
+final class AddBundleToCartListSuccess
+extends AddProductToCartListState {}
+
 final class RemoveProductToCartListLoading
 extends AddProductToCartListState {}
 
@@ -28,4 +40,16 @@ RemoveProductToCartListError({required this.message});
 }
 
 final class RemoveProductToCartListSuccess
+extends AddProductToCartListState {}
+
+final class RemoveALLCartListLoading
+extends AddProductToCartListState {}
+
+final class RemoveALLCartListError extends AddProductToCartListState {
+final String? message;
+
+RemoveALLCartListError({required this.message});
+}
+
+final class RemoveALLCartListSuccess
 extends AddProductToCartListState {}

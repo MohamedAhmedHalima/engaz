@@ -19,6 +19,12 @@ class _FavoriteIconAndDescriptionState
     extends State<FavoriteIconAndDescription> {
   bool _isSelected = false;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    _isSelected =widget.product.inFavourites??false;
+    super.initState();
+  }
   void _toggleImage() {
     setState(() {
       _isSelected = !_isSelected;

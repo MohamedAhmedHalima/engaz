@@ -27,28 +27,31 @@ class MainHome extends StatelessWidget {
         backgroundColor: Colors.white,
         drawer: const CustomDrawer(),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CustomeAppBar(),
-                CustomeSearchBar(),
-                SizedBox(height: 20.h),
-                CustomeSlider(),
-                SizedBox(height: 20.h),
-                Abbreviation(),
-                SizedBox(height: 20.h),
-                OffersRow(),
-                SizedBox(height: 20.h),
-                Categories(), // The updated Categories widget
-                SizedBox(height: 30.h),
-                Trademarks(),
-                SizedBox(height: 30.h),
-                BestSeller(),
-                // SizedBox(height: 30.h),
-                // Discounts(),
-              ],
-            ),
-          ),
+          child:Column(children: [
+            CustomeAppBar(),
+            CustomeSearchBar(),
+            Expanded(child: SingleChildScrollView(
+              child: Column(
+                children: [
+
+                  SizedBox(height: 20.h),
+                  CustomeSlider(),
+                  SizedBox(height: 20.h),
+                  Abbreviation(),
+                  SizedBox(height: 20.h),
+                  OffersRow(),
+                  SizedBox(height: 20.h),
+                  Categories(), // The updated Categories widget
+                  SizedBox(height: 30.h),
+                  Trademarks(),
+                  SizedBox(height: 30.h),
+                  BestSeller(),
+                  // SizedBox(height: 30.h),
+                  // Discounts(),
+                ],
+              ),
+            ))
+          ],),
         ),
       ),
     );

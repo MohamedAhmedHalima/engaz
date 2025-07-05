@@ -32,8 +32,8 @@ class UserData {
   bool? isActive;
   String? marketName;
   String? activityType;
-  int? firstPhone;
-  int? secondPhone;
+  String? firstPhone;
+  String? secondPhone;
   GovernoratesData? governorate;
   GovernoratesData? city;
   GovernoratesData? county;
@@ -64,8 +64,8 @@ class UserData {
     isActive = json['is_active'];
     marketName = json['market_name'];
     activityType = json['activity_type'];
-    firstPhone = json['first_phone'];
-    secondPhone = json['second_phone'];
+    firstPhone = json['first_phone'].toString();
+    secondPhone = json['second_phone'].toString();
     governorate = json['governorate'] != null
         ? GovernoratesData.fromJson(json['governorate'])
         : null;

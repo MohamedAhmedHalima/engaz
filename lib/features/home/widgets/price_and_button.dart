@@ -4,11 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../cart/cubits/add_to_cart/cubit/add_to_cart_cubit.dart'; // Import ScreenUtil
+import '../../cart/cubits/add_to_cart/cubit/add_to_cart_cubit.dart';
+import '../../cart/cubits/get_cart_amount/get_cart_amount_cubit.dart';
+import 'dialog_offer.dart'; // Import ScreenUtil
 
 class PriceAndButton extends StatelessWidget {
   final Products product;
-  const PriceAndButton({super.key, required this.product});
+  final int selectedUnitId;
+  final VoidCallback? onTap;
+  const PriceAndButton({super.key,  this.onTap,required this.product,required this.selectedUnitId});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +31,33 @@ class PriceAndButton extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: TextButton(
                       onPressed: (){
+                        if (onTap != null) {
+                          onTap!();
+                          return;
+                        }
+
+                        if(product.offers!.isNotEmpty) {
+                          showCustomAlertOfferDialog(context,name: product.offers![0].name,description: product.offers![0].description,img: product.offers![0].image);
+                        }else{
+                          BlocProvider.of<GetAmountCubit>(context).getCartAmount();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("تم اضافه المنتج   بنجاح!", style: TextStyle(color: Colors.white)),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,             // makes it float above content
+                              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              backgroundColor: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+
+                            ),
+                          );
+                        }
                         context
                             .read<AddProductToCartListCubit>()
                             .addToCartList(
+                          unitId: selectedUnitId,
                             productId: product.id,quantity: 1);
                       },
                       style: TextButton.styleFrom(

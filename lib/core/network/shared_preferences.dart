@@ -8,50 +8,15 @@ import '../../features/auth/sign_up/model/sign_up_model.dart';
 class SharedPreferencesHelper {
   static const _userTokenKey = 'user_token';
   static const fcmToken = 'Fcm_Token';
+  static   bool isPassedOnboarding = false;
   static  UserData ? userModel;
   static const String _cachedCategoriesKey = "CACHED_CATEGORIES";
   static const String _cachedSubCategoriesKey = "CACHED_Sub_CATEGORIES";
   static const _imageUrlKey = 'profile_image_url';
 
-  static Future<void> saveCategories(List<dynamic> categories) async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = jsonEncode(categories);
-    await prefs.setString(_cachedCategoriesKey, data);
-  }
 
-  static Future<void> saveSubCategories(List<dynamic> subcategories) async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = jsonEncode(subcategories);
-    await prefs.setString(_cachedSubCategoriesKey, data);
-  }
 
-  static Future<List<dynamic>?> getSUbCategories() async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString(_cachedSubCategoriesKey);
-    if (data != null) {
-      return jsonDecode(data);
-    }
-    return null;
-  }
 
-  static Future<List<dynamic>?> getCategories() async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString(_cachedCategoriesKey);
-    if (data != null) {
-      return jsonDecode(data); // Convert back to List
-    }
-    return null;
-  }
-
-  static Future<void> saveProfileImageUrl(String url) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_imageUrlKey, url); // Use consistent key
-  }
-
-  static Future<String?> getProfileImageUrl() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_imageUrlKey); // Use consistent key
-  }
 
   static Future<bool> saveToken(String token) async {
     try {
@@ -90,15 +55,25 @@ class SharedPreferencesHelper {
   //   userModel=UserModel();
   //   await prefs.clear();
   // }
-  static Future<bool> saveFcmToken(String token) async {
+
+  static Future<void> saveOnboardingState(bool Onboarding) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isPassedOnboarding =Onboarding;
+    await prefs.setBool('isOnboarding' , Onboarding);
+    print('Token saved to saveOnboardingState');
+  }
+
+  static Future<bool?> getOnboardingState() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return await prefs.setString(fcmToken, token);
+      isPassedOnboarding= prefs.getBool('isOnboarding')??false;
+      return isPassedOnboarding;
     } catch (e) {
-      print("Error saving token: $e");
-      return false;
+      print("Error getting token: $e");
+      return null;
     }
   }
+
 
   static Future<String?> getToken() async {
     try {
@@ -110,20 +85,20 @@ class SharedPreferencesHelper {
     }
   }
 
-  static Future<dynamic?> getFcmToken() async {
+
+  static Future<bool> removeUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(fcmToken);
+      return await prefs.remove("user");
     } catch (e) {
-      print("Error getting token: $e");
-      return null;
+      print("Error removing user: $e");
+      return false;
     }
   }
-
   static Future<bool> removeToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return await prefs.remove("token");
+      return await prefs.remove(_userTokenKey);
     } catch (e) {
       print("Error removing token: $e");
       return false;

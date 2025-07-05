@@ -21,7 +21,7 @@ class PointsScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(children: [
             const CustomeAppBar(),
-            const CustomeSearchBar(),
+              CustomeSearchBar(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Align(

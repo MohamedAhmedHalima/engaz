@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:engaz/features/home/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/network/shared.dart';
 
 class DetailsScreenImage extends StatelessWidget {
   final Products product;
@@ -15,8 +18,9 @@ class DetailsScreenImage extends StatelessWidget {
       height: 239.h,
       width: 343.w,
       decoration: BoxDecoration(
-        color: const Color(0XFFB0E2ED),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
+        border: Border.all(color:Colors.white60 )
       ),
       child: Stack(
         children: [
@@ -25,6 +29,7 @@ class DetailsScreenImage extends StatelessWidget {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back_ios)),
+          if( product.discount != null && product.discount! > 0)
           Positioned(
             top: 10,
             left: 1,
@@ -39,7 +44,7 @@ class DetailsScreenImage extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  product.discount != null && product.discount != null
+                  product.discount != null && product.discount! > 0&&(product.discount_type!=null&& product.discount_type!.contains("percentage"))
                       ? "خصم ${product.discount!}%"
                       : "بدون خصم",
                   style: GoogleFonts.cairo(
@@ -53,30 +58,47 @@ class DetailsScreenImage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 5,
-            left: 105,
+            // top: 5,
+            left: 0,
+            right: 0,
             child: SizedBox(
-              width: 150.w,
-              height: 300.h,
-              child: Image.network(
-                'http://194.164.77.238:8005${product.image}',
-                fit: BoxFit.cover, // ضبط كيفية عرض الصورة
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
+                width: 150.w,
+                height: 240.h,
+                child: CachedNetworkImage(
+                  cacheManager: MyImageCacheManager.instance,
+                  imageUrl: product.images!.length > 0
+                      ? product.images![0] ?? ""
+                      : product.image ?? "",
+                  fit: BoxFit.fitHeight,
+                  placeholder: (context, url) => Center(
+                    child: SizedBox(
+                      width: 24.r,
+                      height: 24.r,
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error);
-                },
-              ),
-            ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+
+                // Image.network(
+                //   product.images![0],
+                //   fit: BoxFit.fitHeight, // ضبط كيفية عرض الصورة
+                //   loadingBuilder: (context, child, loadingProgress) {
+                //     if (loadingProgress == null) return child;
+                //     return Center(
+                //       child: CircularProgressIndicator(
+                //         value: loadingProgress.expectedTotalBytes != null
+                //             ? loadingProgress.cumulativeBytesLoaded /
+                //                 loadingProgress.expectedTotalBytes!
+                //             : null,
+                //       ),
+                //     );
+                //   },
+                //   errorBuilder: (context, error, stackTrace) {
+                //     return const Icon(Icons.error);
+                //   },
+                // ),
+                ),
           ),
           Positioned(
             bottom: 20,

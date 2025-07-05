@@ -11,7 +11,6 @@ import '../widgets/logout_card_item.dart';
 import '../widgets/market_detailes_card_item.dart';
 import '../widgets/password_card_item.dart';
 import '../widgets/user_details_card_item.dart';
-import 'edit_user_info.dart';
 
 class AllSettingsScreen extends StatelessWidget {
   static const String routeName = "AllSettingsScreen";
@@ -27,7 +26,7 @@ class AllSettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               const CustomeAppBar(),
-              const CustomeSearchBar(),
+                CustomeSearchBar(),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
@@ -45,7 +44,7 @@ class AllSettingsScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => UpdateUserData()),
+                          MaterialPageRoute(builder: (context) => const UpdateUserData()),
                         );
                       },
                       child: Text(
@@ -66,19 +65,19 @@ class AllSettingsScreen extends StatelessWidget {
                   ],),
                 ),
               ),
-              UserDetailsCardItem(),
+              const UserDetailsCardItem(),
               SizedBox(
                 height: 20.h,
               ),
-              PasswordCardItem(),
+              const PasswordCardItem(),
               SizedBox(
                 height: 20.h,
               ),
-              MarketDetailesCardItem(),
+              const MarketDetailesCardItem(),
               SizedBox(
                 height: 20.h,
               ),
-              LogoutCardItem(),
+              const LogoutCardItem(),
             ],
           ),
         ),

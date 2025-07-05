@@ -49,8 +49,8 @@ class GovernoratesData {
     id = json['id'];
     governorateId = json['governorate_id'];
     nameAr = json['name_ar'];
-    longitude = json['longitude'];
-    latitude = json['latitude'];
+    longitude =double.parse( json['longitude'].toString());
+    latitude = double.parse(json['latitude'].toString());
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }

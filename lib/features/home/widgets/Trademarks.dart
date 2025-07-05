@@ -12,62 +12,36 @@ class Trademarks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetAllCompanyCubit()..getAllComapny(),
-      child: BlocBuilder<GetAllCompanyCubit, GetAllCompanyState>(
-        builder: (context, state) {
-          if (state is GetAllCompanyLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is GetAllCompanyError) {
-            return Center(child: Text(state.message ?? ""));
-          } else if (state is GetAllCompanySuccess) {
-            final companies = state.getAllCompanyModel.data;
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      "الشركات",
-                      style: GoogleFonts.cairo(
-                        textStyle: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(
-                    height: 60,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: companies!.length,
-                      separatorBuilder: (_, __) => SizedBox(width: 10.w),
-                      itemBuilder: (context, index) {
-                        final company = companies[index];
-                        return InkWell(
-                          onTap: (){
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OfferProduct(titleName: companies[index].name??"", getProductesEndpoint: "products?company_id=${companies[index].id}"),
-                              ),
-                            );
-                          },
-                          child: TradeMarkItem(company: company),
-                        ) ;
-                      },
-                    ),
-                  ),
-                ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Text(
+              "الشركات",
+              style: GoogleFonts.cairo(
+                textStyle: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 20.h),
+        BlocProvider(
+          create: (context) => GetAllCompanyCubit()..getAllComapny(url:"companies?show_home_page=1"),
+          child:CompanyListView( onTap:  (companies){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OfferProduct(titleName: companies.name??"", getProductesEndpoint: "products?company_id=${companies.id}"),
               ),
             );
-          }
-          return const SizedBox.shrink();
-        },
+          }),
+        )
+
+        ],
       ),
     );
   }

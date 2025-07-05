@@ -33,16 +33,19 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
     required String otherPhone,
     required String governorate,
     required String City,
+    required String location,
     required String District,
     required String storeName,
     required String businessType,
-    required List<File> images, // قائمة الصور
+      String? password,
+      String? password_confirmation,
+      List<File> ?images, // قائمة الصور
   }) async {
     emit(UpdateUserDataLoading());
 
     try {
       // إنشاء FormData لإرسال البيانات والصور
-      FormData formData = FormData.fromMap({
+      FormData formData = password!=null?FormData.fromMap({
         'name': nameClient,
         // 'email': email,
         'first_phone': phone,
@@ -50,27 +53,42 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
         'governorate_id': governorate,
         'city_id': City,
         'county_id': District,
-        // 'location': location,
+        'location': location,
+        'market_name': storeName,
+        'password': password,
+        'password_confirmation': password_confirmation,
+        'activity_type': businessType,
+      }):FormData.fromMap({
+        'name': nameClient,
+        // 'email': email,
+        'first_phone': phone,
+        'second_phone': otherPhone,
+        'governorate_id': governorate,
+        'city_id': City,
+        'county_id': District,
+        'location': location,
         'market_name': storeName,
         'activity_type': businessType,
       });
 
       // إضافة الصور إلى FormData إذا كانت هناك صور
-      for (var image in images) {
-        formData.files.add(MapEntry(
-          "images[]", // تأكد من أن هذا الحقل يتطابق مع ما يتوقعه الـ API
-          await MultipartFile.fromFile(
-            image.path,
-            filename:
-            image.uri.pathSegments.last, // الحصول على اسم الملف من الـ URI
-          ),
-        ));
+        if(images!=null)  {
+        for (var image in images) {
+          formData.files.add(MapEntry(
+            "images[]", // تأكد من أن هذا الحقل يتطابق مع ما يتوقعه الـ API
+            await MultipartFile.fromFile(
+              image.path,
+              filename: image
+                  .uri.pathSegments.last, // الحصول على اسم الملف من الـ URI
+            ),
+          ));
+        }
       }
 
       // إرسال الطلب باستخدام Dio
 
       final response = await DioHelper.postData(
-        url: 'register',
+        url: 'me/info/update',
         formData: formData,
       );
 
@@ -84,7 +102,7 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
         print('Parsed status: ${signUpModel?.status}');
         print('Parsed message: ${signUpModel?.message}');
 
-        emit(UpdateUserDataSuccess(signUpModel: signUpModel!));
+        emit(UpdateUserDataSuccess());
       }
 
       else {
@@ -93,10 +111,70 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
             "Something went wrong : ${response.data["message"]}"));
       }
 
-    } catch (e) {
-      print('Error: $e');
-      emit(UpdateUserDataError(message: "An error occurred: $e"));
-    }
+  } on DioException catch (e) {
+  if (e.type == DioExceptionType.connectionTimeout ||
+  e.type == DioExceptionType.receiveTimeout ||
+  e.type == DioExceptionType.unknown) {
+  // ❌ دي غالبًا مشكلة إنترنت
+  emit(UpdateUserDataError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+  } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+  // 🔥 مشكلة من السيرفر نفسه
+  emit(UpdateUserDataError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+  } else {
+  // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+  emit(UpdateUserDataError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+  }
+  } catch (e) {
+  // ✴️ fallback لو حصل استثناء غير معروف
+  emit(UpdateUserDataError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
+  }
+  }
+  Future<void> updateLocation({
+    required String lat,
+    required String long,
+   }) async {
+    emit(UpdateLocationLoading());
+
+    try {
+      // إنشاء FormData لإرسال البيانات والصور
+
+      final response = await DioHelper.postData(
+        url: 'user/location/update',
+        data: {
+          "lat": lat,
+          "long": long
+        }
+      );
+
+      // التحقق من الاستجابة
+      if (response!.statusCode == 200) {
+
+        emit(UpdateLocationSuccess());
+      }
+
+      else {
+        emit(UpdateLocationError(
+            message:
+            "Something went wrong : ${response.data["message"]}"));
+      }
+
+  } on DioException catch (e) {
+  if (e.type == DioExceptionType.connectionTimeout ||
+  e.type == DioExceptionType.receiveTimeout ||
+  e.type == DioExceptionType.unknown) {
+  // ❌ دي غالبًا مشكلة إنترنت
+  emit(UpdateLocationError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+  } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+  // 🔥 مشكلة من السيرفر نفسه
+  emit(UpdateLocationError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+  } else {
+  // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+  emit(UpdateLocationError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+  }
+  } catch (e) {
+  // ✴️ fallback لو حصل استثناء غير معروف
+  emit(UpdateLocationError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
+  }
   }
 
 

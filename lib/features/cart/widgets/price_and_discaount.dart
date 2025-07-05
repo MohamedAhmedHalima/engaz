@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../home/models/product_model.dart';
 import '../model/cart_model.dart';
 class PriceAndDiscaount extends StatelessWidget {
-  final CartProduct product;
+  final Products product;
   const PriceAndDiscaount({super.key, required this.product});
 
   @override

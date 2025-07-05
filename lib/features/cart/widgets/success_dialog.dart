@@ -41,9 +41,10 @@ Future<void> SuccessDialog(BuildContext context) async {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
+                          Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => MainHome()),
+                            MaterialPageRoute(builder: (_) => MainHome()),
+                                (Route<dynamic> route) => false,  // remove all previous routes
                           );
                         },
                         style: TextButton.styleFrom(

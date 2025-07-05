@@ -29,3 +29,15 @@ final class RemoveProductToFavoritListError extends AddProductToFavoritListState
 
 final class RemoveProductToFavoritListSuccess
     extends AddProductToFavoritListState {}
+
+final class RemoveALLFavoritListLoading
+    extends AddProductToFavoritListState {}
+
+final class RemoveALLFavoritListError extends AddProductToFavoritListState {
+  final String? message;
+
+  RemoveALLFavoritListError({required this.message});
+}
+
+final class RemoveALLFavoritListSuccess
+    extends AddProductToFavoritListState {}

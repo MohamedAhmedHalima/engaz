@@ -22,16 +22,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'features/auth/sign_up/controller/sign_up_cubit/sign_up_cubit.dart';
 import 'features/cart/cubits/add_to_cart/cubit/add_to_cart_cubit.dart';
+import 'features/cart/cubits/check_out/check_out_bloc.dart';
 import 'features/cart/cubits/get_cart_amount/get_cart_amount_cubit.dart';
 import 'features/cart/cubits/get_cart_item/get_cart_item_cubit.dart';
 import 'features/favorite/cubits/get_all_favourite_list/cubit/get_all_favourite_list_cubit.dart';
 import 'features/home/cubits/add_product_to_favorit_list/cubit/add_product_to_favorit_list_cubit.dart';
+import 'features/home/cubits/get_bundles/cubit/get_bundles_cubit.dart';
 import 'features/home/cubits/home_slider/cubit/home_slider_cubit.dart';
 import 'features/home/screens/main_home.dart';
 import 'features/home/screens/spacific_categorie_screen.dart';
 import 'features/settings/controller/get_user_data/cubit/get_user_data_cubit.dart';
 import 'features/settings/controller/update_user_data/cubit/update_user_data_cubit.dart';
 import 'features/splash_screen&&on_boarding/screens/splash_screen.dart';
+import 'features/tracking_order/controller/cancel_update_order/cubit/cancel_update_order_bloc.dart';
+import 'features/tracking_order/controller/get_order_list_data/cubite/get_order_list_data_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +45,7 @@ void main() {
   runApp(DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => const Orderak(),
-  ));
-}
+  ));}
 
 class Orderak extends StatelessWidget {
   const Orderak({super.key});
@@ -75,9 +78,20 @@ class Orderak extends StatelessWidget {
           BlocProvider(create: (context) => GetAmountCubit()),
           BlocProvider(create: (context) => GetUserDataCubit()),
           BlocProvider(create: (context) => UpdateUserDataCubit()),
+          BlocProvider(create: (context) => CheckOutCubit()),
+          BlocProvider(create: (context) => GetBundlesCubit()),
+          BlocProvider(create: (context) => GetOrderListDataCubit()),
+          BlocProvider(create: (context) => CancelUpdateOrderCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            backgroundColor: Colors.white,
+            cardTheme: CardTheme(color: Colors.white,surfaceTintColor: Colors.white,),
+            scaffoldBackgroundColor: Colors.white, // 👈 يخلي كل الـ Scaffold أبيض تلقائيًا
+            cardColor: Colors.white,               // 👈 الكروت تبقى بيضاء تلقائيًا
+          ),
+
           initialRoute: SplashScreen.routeName,
           routes: {
             SplashScreen.routeName: (context) => const SplashScreen(),

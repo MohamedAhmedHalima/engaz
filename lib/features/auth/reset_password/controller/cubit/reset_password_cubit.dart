@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:engaz/core/network/api.dart';
 import 'package:engaz/features/auth/reset_password/model/reset_password_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,18 +39,25 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
 
       } else {
 
-        emit(ResetPasswordError(
-            message: resetPasswordModel?.message ?? "Unknown error"));
+        emit(ResetPasswordError(message: "الخدمة غير متاحة حاليًا، جرّب مرة تانية لاحقًا."));
       }
-    } catch (error) {
-      print('DioError: ${error.toString()}');
-      String errorMessage = error.toString();
-      if (errorMessage.contains("SocketException")) {
-        errorMessage = "Network error. Please check your internet connection.";
-      } else if (errorMessage.contains("TimeoutException")) {
-        errorMessage = "The request timed out. Please try again.";
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.unknown) {
+        // ❌ دي غالبًا مشكلة إنترنت
+        emit(ResetPasswordError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+      } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+        // 🔥 مشكلة من السيرفر نفسه
+        emit(ResetPasswordError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+      } else {
+        // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+        emit(ResetPasswordError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
       }
-      emit(ResetPasswordError(message: errorMessage));
+    } catch (e) {
+      // ✴️ fallback لو حصل استثناء غير معروف
+      emit(ResetPasswordError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
     }
+
   }
 }

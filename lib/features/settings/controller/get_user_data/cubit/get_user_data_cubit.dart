@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:engaz/core/network/api.dart';
 import 'package:engaz/core/network/shared_preferences.dart';
 import 'package:engaz/features/home/models/product_model.dart';
@@ -19,7 +20,7 @@ class GetUserDataCubit extends Cubit<GetUserDataState> {
   Future<void> getUserData() async {
     emit(GetUserDataLoading());
 
-    try {
+    // try {
       final token = await SharedPreferencesHelper.getToken();
       if (token == null || token.isEmpty) {
         emit(GetUserDataError(message: 'Token is null or empty'));
@@ -32,21 +33,32 @@ class GetUserDataCubit extends Cubit<GetUserDataState> {
       );
 
       if (response?.statusCode == 200) {
-        userModel = UserData.fromJson(response?.data);
+        userModel = UserData.fromJson(response?.data["data"]);
 
         emit(GetUserDataSuccess(userModl: userModel!,));
 
-      } else if (response?.statusCode == 404) {
-        emit(GetUserDataError(message: 'No products found for this user.'));
-      } else {
-        emit(GetUserDataError(
-            message: 'Unexpected error: ${response?.statusCode}'));
       }
-    } catch (e, stackTrace) {
-      print('Error: $e');
-      print('Stack Trace: $stackTrace');
-      emit(GetUserDataError(
-          message: 'Failed to fetch products: ${e.toString()}'));
-    }
+    //   else if (response?.statusCode == 404) {
+    //     emit(GetUserDataError(message: 'No products found for this user.'));
+    //   } else {
+    //     emit(GetUserDataError(message: "الخدمة غير متاحة حاليًا، جرّب مرة تانية لاحقًا."));
+    //   }
+    // } on DioException catch (e) {
+    //   if (e.type == DioExceptionType.connectionTimeout ||
+    //       e.type == DioExceptionType.receiveTimeout ||
+    //       e.type == DioExceptionType.unknown) {
+    //     // ❌ دي غالبًا مشكلة إنترنت
+    //     emit(GetUserDataError(message: "تأكد من اتصالك بالإنترنت وحاول مرة أخرى."));
+    //   } else if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
+    //     // 🔥 مشكلة من السيرفر نفسه
+    //     emit(GetUserDataError(message: "الخدمة غير متاحة الآن، يرجى المحاولة لاحقًا."));
+    //   } else {
+    //     // ✴️ أي حاجة غير كده (زي 400، 404، إلخ)
+    //     emit(GetUserDataError(message: "حدث خطأ غير متوقع، حاول مرة أخرى."));
+    //   }
+    // } catch (e) {
+    //   // ✴️ fallback لو حصل استثناء غير معروف
+    //   emit(GetUserDataError(message: "حدث خطأ غير متوقع، حاول لاحقًا."));
+    // }
   }
 }

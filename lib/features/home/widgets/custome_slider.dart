@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../cubits/home_slider/cubit/home_slider_cubit.dart';
+import 'offer_product.dart';
 
 class CustomeSlider extends StatefulWidget {
   const CustomeSlider({super.key});
@@ -87,7 +88,8 @@ class _CustomeSliderState extends State<CustomeSlider> {
                     width: 343.w,
                     child: CarouselSlider(
                       items: _images.map((imagePath) {
-                        return Image.asset(imagePath, fit: BoxFit.contain);
+                        return  Image.asset(imagePath, fit: BoxFit.contain) ;
+
                       }).toList(),
                       options: CarouselOptions(
                         height: 160.h,
@@ -129,7 +131,23 @@ class _CustomeSliderState extends State<CustomeSlider> {
                   width: 343.w,
                   child: CarouselSlider(
                     items: sliderModel.map((imagePath) {
-                      return Image.network(imagePath.image??"", fit: BoxFit.contain);
+
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    OfferProduct(titleName: 'العروض',
+                                        getProductesEndpoint: "products?offer_id=${imagePath
+                                            .offerId??""}&category_id=${imagePath
+                                            .categoryId??""}&product_id=${imagePath
+                                            .productId??""}")
+                            ),
+                          );
+                        },
+                        child:Image.network(imagePath.image??"", fit: BoxFit.contain),
+                      );
                     }).toList(),
                     options: CarouselOptions(
                       height: 160.h,

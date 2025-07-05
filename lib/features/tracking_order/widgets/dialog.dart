@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';Future<void> DeleteDialog(BuildContext context) async {
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../controller/cancel_update_order/cubit/cancel_update_order_bloc.dart';
+
+Future<void> DeleteDialog(BuildContext context,{required int id}) async {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -38,6 +43,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';Future<void> DeleteD
                         color: const Color(0XFF7A7A7A)),
                   ),
                 ),
+                SizedBox(height: 20.h),
                 Row(
                   children: [
                     Expanded(
@@ -68,6 +74,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';Future<void> DeleteD
                       child: TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
+                          BlocProvider.of<CancelUpdateOrderCubit>(context).cancelOrder(id: id );
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: const Color(0xFFD42828),
@@ -81,7 +88,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';Future<void> DeleteD
                               horizontal: 20, vertical: 10),
                         ),
                         child: Text(
-                          'مسح الكل',
+                          'تاكيد الالغاء',
                           style: GoogleFonts.cairo(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w500,

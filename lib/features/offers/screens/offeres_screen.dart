@@ -18,21 +18,19 @@ class OfferesScreen extends StatelessWidget {
       drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomeAppBar(),
-              const CustomeSearchBar(),
-              SizedBox(height: 20.h),
-              const CustomeSlider(),
-              SizedBox(height: 20.h),
-              SizedBox(height: 20.h),
-              const OffersRow(),
-              SizedBox(height: 20.h),
-              const CardItemForOfferes(),
-            ],
-          ),
-        ),
+        child:CardItemForOfferes(body: Column(
+          children: [
+            const CustomeAppBar(),
+            CustomeSearchBar(),
+            SizedBox(height: 20.h),
+            const CustomeSlider(),
+            SizedBox(height: 20.h),
+            SizedBox(height: 20.h),
+            OffersRow(isSamePage: true,),
+            SizedBox(height: 20.h),
+
+          ],
+        ),)
       ),
     );
   }

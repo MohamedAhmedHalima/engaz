@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/network/shared_preferences.dart';
 import '../../auth/sign_up/model/sign_up_model.dart';
 import '../../chat/screens/chat_types_screen.dart';
+import '../screens/main_home.dart';
 
 class CustomeAppBar extends StatefulWidget {
   const CustomeAppBar({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                   children: [
                     Text(
                       // 5. Safely unwrap name (or show empty string)
-                      user?.name ?? "",
+                      user?.marketName ?? "",
                       style: GoogleFonts.cairo(
                         textStyle: TextStyle(
                           fontSize: 14.sp,
@@ -79,11 +80,19 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                 ),
               ),
               SizedBox(width: 10.w),
-              Image.asset(
-                "assets/images/logo.png",
-                height: 18.h,
-                width: 43.w,
-              ),
+              InkWell(
+                onTap: (){
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => MainHome()),
+                        (Route<dynamic> route) => false,
+                  );
+                },
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  height: 30.h,
+                  width: 43.w,
+                ),
+              )
             ],
           );
         },

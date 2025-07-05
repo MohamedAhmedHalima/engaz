@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../offers/widgets/card_item_for_offeres.dart';
 import '../cubits/get_all_company/cubit/get_all_company_cubit.dart';
 import '../cubits/get_productes/cubit/get_products_cubit.dart';
 import 'custome_search_bar.dart';
@@ -44,69 +45,20 @@ class _OfferProductState extends State<OfferProduct> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: BlocProvider(
+        create: (context) => GetProductsCubit()
+          ..getProduct(
+            getProductesEndpoint:  widget.getProductesEndpoint,
+          ),
+        child:    CardItemForOfferes(body:  Column(
           children: [
-            const CustomeSearchBar(),
+            CustomeSearchBar(),
             SizedBox(height: 30.h),
-            BlocProvider(
-              create: (context) => GetProductsCubit()
-                ..getProduct(
-                  getProductesEndpoint:  widget.getProductesEndpoint,
 
-                ),
-              child: BlocBuilder<GetProductsCubit, GetProductsState>(
-                builder: (context, state) {
-                  if (state is GetProductsLoading) {
-                    return const Center(
-                        child: CircularProgressIndicator());
-                  } else if (state is GetProductsError) {
-                    return Center(child: Text(state.message ?? ""));
-                  } else if (state is GetProductsSuccess) {
-                    final products = state.productModel.data!.products;
-                    return Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              " منتجات متشابها",
-                              style: GoogleFonts.cairo(
-                                textStyle: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20.h),
-                          SizedBox(
-                            height: 337,
-                            width: double.infinity,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: products!.length,
-                              separatorBuilder: (_, __) =>
-                                  SizedBox(width: 10.w),
-                              itemBuilder: (context, index) {
-                                final product = products[index];
-                                return Items(product: product);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-            )
           ],
-        ),
-      ),
+        ),)
+      )
+
     );
   }
 }

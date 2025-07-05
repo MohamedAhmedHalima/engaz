@@ -8,8 +8,15 @@ final class GetAllCompanyInitial extends GetAllCompanyState {}
 final class GetAllCompanyLoading extends GetAllCompanyState {}
 
 final class GetAllCompanySuccess extends GetAllCompanyState {
-  GetAllCompanyModel getAllCompanyModel;
-  GetAllCompanySuccess({required this.getAllCompanyModel});
+    List<Company>companyList ;
+  GetAllCompanySuccess({required this.companyList});
+}
+final class GetUpdateAllCompanyLoading extends GetAllCompanyState {}
+final class GetUpdateAllCompanyEmpty extends GetAllCompanyState {}
+
+final class GetUpdateAllCompanySuccess extends GetAllCompanyState {
+    List<Company>companyList ;
+    GetUpdateAllCompanySuccess({required this.companyList});
 }
 
 final class GetAllCompanyError extends GetAllCompanyState {

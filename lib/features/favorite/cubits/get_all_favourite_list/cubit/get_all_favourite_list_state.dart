@@ -8,7 +8,7 @@ final class GetAllFavouriteListInitial extends GetAllFavouriteListState {}
 final class GetAllFavouriteListLoading extends GetAllFavouriteListState {}
 
 final class GetAllFavouriteListSuccess extends GetAllFavouriteListState {
-  FavouriteListModel favouriteListModel;
+FavouriteListModel favouriteListModel;
   GetAllFavouriteListSuccess({required this.favouriteListModel});
 }
 

@@ -5,8 +5,9 @@ class UserData {
   final bool? isActive;
   final String? marketName;
   final String? activityType;
-  final int? firstPhone;
-  final int? secondPhone;
+  final String? location;
+  final String? firstPhone;
+  final String? secondPhone;
   final Governorate? governorate;
   final City? city;
   final County? county;
@@ -21,6 +22,7 @@ class UserData {
     this.name,
     this.role,
     this.isActive,
+    this.location,
     this.marketName,
     this.activityType,
     this.firstPhone,
@@ -42,9 +44,10 @@ class UserData {
       role: json['role'] as String?,
       isActive: json['is_active'] as bool?,
       marketName: json['market_name'] as String?,
+      location: json['location'] as String?,
       activityType: json['activity_type'] as String?,
-      firstPhone: json['first_phone'] as int?,
-      secondPhone: json['second_phone'] as int?,
+      firstPhone: json['first_phone']!=null?json['first_phone'].toString() :"",
+      secondPhone: json['second_phone']!=null?json['second_phone'].toString():"",
       governorate: json['governorate'] != null
           ? Governorate.fromJson(json['governorate'] as Map<String, dynamic>)
           : null,
@@ -57,8 +60,9 @@ class UserData {
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      lat: (json['lat'] as num?)?.toDouble(),
-      long: (json['long'] as num?)?.toDouble(),
+      lat: double.parse(json['lat'].toString()) ,
+      long:  double.parse((json['long'].toString() )),
+
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
           : null,
@@ -75,6 +79,7 @@ class UserData {
       'role': role,
       'is_active': isActive,
       'market_name': marketName,
+      'location': location,
       'activity_type': activityType,
       'first_phone': firstPhone,
       'second_phone': secondPhone,
@@ -107,8 +112,8 @@ class Governorate {
     return Governorate(
       id: json['id'] as int?,
       nameAr: json['name_ar'] as String?,
-      longitude: (json['longitude'] as num?)?.toDouble(),
-      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: double.parse(json['longitude'].toString()) ,
+      latitude:  double.parse((json['latitude'].toString() )),
     );
   }
 
@@ -141,8 +146,8 @@ class City {
     return City(
       id: json['id'] as int?,
       nameAr: json['name_ar'] as String?,
-      longitude: (json['longitude'] as num?)?.toDouble(),
-      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: double.parse(json['longitude'].toString()) ,
+      latitude:  double.parse((json['latitude'].toString() )),
       governorateId: json['governorate_id'] as int?,
     );
   }
@@ -177,8 +182,8 @@ class County {
     return County(
       id: json['id'] as int?,
       nameAr: json['name_ar'] as String?,
-      longitude: (json['longitude'] as num?)?.toDouble(),
-      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: double.parse(json['longitude'].toString()) ,
+      latitude:  double.parse((json['latitude'].toString() )),
       cityId: json['city_id'] as int?,
     );
   }

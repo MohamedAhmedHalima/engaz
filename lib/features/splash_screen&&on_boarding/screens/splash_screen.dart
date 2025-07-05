@@ -3,6 +3,7 @@ import 'package:engaz/features/home/screens/main_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../auth/login/screens/login_screen.dart';
 import 'on_boarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,17 +44,28 @@ class _SplashScreenState extends State<SplashScreen>
     String? token = await SharedPreferencesHelper.getToken();
 
     if (mounted) {
-      if (token != null && token.isNotEmpty) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MainHome()),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => OnBoardingScreen()),
-        );
-      }
+      SharedPreferencesHelper.getOnboardingState().then((value){
+        if(!SharedPreferencesHelper.isPassedOnboarding){
+          SharedPreferencesHelper.saveOnboardingState(true).then((value) { Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+          );});
+
+        }else{
+          if (token != null && token.isNotEmpty) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainHome()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
+        }
+      });
+
     }
   }
 

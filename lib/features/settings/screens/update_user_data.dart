@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:engaz/features/home/screens/main_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -27,10 +28,15 @@ class _UpdateUserDataState extends State<UpdateUserData> {
   final TextEditingController marketName = TextEditingController();
   final TextEditingController phone = TextEditingController();
   final TextEditingController phone2 = TextEditingController();
+  final TextEditingController location = TextEditingController();
   late int city;
   late int government;
   late int counties;
   late String businessTypes;
+  String ?citySelectedItem ;
+  String ?governmentSelectedItem ;
+  String ?countiesSelectedItem ;
+  String ?businessTypesSelectedItem ;
   bool isFirstGovernorate = true;
   late List<DropdownModel> listGovernorate;
   bool isFirstBusinessTypes = true;
@@ -40,10 +46,42 @@ class _UpdateUserDataState extends State<UpdateUserData> {
   bool isFirstCounties = true;
   bool isGetValue = true;
   List<DropdownModel> listCounties = [];
-
+  Position? _position;
+  String? _error;
   // final String e_mail = "omarnabilsharnopu@gmail.com";
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _images = [];
+  Future<void> _initLocation() async {
+    try {
+      // 1. تأكد أنّ خدمة الموقع مفعّلة
+      if (!await Geolocator.isLocationServiceEnabled()) {
+        await Geolocator.openLocationSettings();
+        throw 'Location services are disabled.';
+      }
+
+      // 2. تحقق واطلب الصلاحيات
+      LocationPermission perm = await Geolocator.checkPermission();
+      if (perm == LocationPermission.denied) {
+        perm = await Geolocator.requestPermission();
+        if (perm == LocationPermission.denied) {
+          throw 'Location permissions are denied';
+        }
+      }
+      if (perm == LocationPermission.deniedForever) {
+        await Geolocator.openAppSettings();
+        throw 'Location permissions are permanently denied.';
+      }
+
+      // 3. احصل على الموقع
+      Position pos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      setState(() => _position = pos);
+    } catch (e) {
+      print(e);
+      setState(() => _error = e.toString());
+    }
+  }
 
   Future<void> _pickImages() async {
     final List<XFile>? selectedImages = await _picker.pickMultiImage();
@@ -111,10 +149,16 @@ class _UpdateUserDataState extends State<UpdateUserData> {
               name.text=state.userModl.name??"";
               marketName.text=state.userModl.marketName??"";
               phone.text=state.userModl.firstPhone.toString()??"";
-              phone2.text=state.userModl.secondPhone.toString()??"";
+              phone2.text=state.userModl.secondPhone!=null?state.userModl.secondPhone.toString():"";
              city=state.userModl.city!.id??0;
              government=state.userModl.governorate!.id??0;
              counties=state.userModl.county!.id??0;
+              citySelectedItem =state.userModl.city!.nameAr;
+              governmentSelectedItem=state.userModl.governorate!.nameAr ;
+              countiesSelectedItem=state.userModl.county!.nameAr ;
+              businessTypesSelectedItem =state.userModl.activityType;
+              location.text =state.userModl.location??"";
+              businessTypes =state.userModl.activityType??"";
 
               isGetValue=false;
             }
@@ -139,7 +183,7 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                         listener: (context, state) {},
                         builder: (context, state) {
                           if (state is BusinessTypesSuccess) {
-                            if (isFirstGovernorate) {
+                            if (isFirstBusinessTypes) {
                               listFirstBusinessTypes = [];
                               state.businessTypesModel.data!.forEach((element) {
                                 listFirstBusinessTypes.add(DropdownModel(
@@ -149,6 +193,7 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                               isFirstBusinessTypes = false;
                             }
                             return DropDownSearchWidget(
+                              selectedItem: businessTypesSelectedItem,
                               list: listFirstBusinessTypes,
                               selected: (value) {
                                 // businessTypes =listFirstBusinessTypes.firstWhere((item)=>item.id==value).name ;
@@ -192,6 +237,7 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                           }
                           if (state is GovernoratesSuccess) {
                             return DropDownSearchWidget(
+                              selectedItem: governmentSelectedItem,
                               list: listGovernorate,
                               selected: (value) {
                                 government = value;
@@ -227,6 +273,7 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                           }
                           {
                             return DropDownSearchWidget(
+                              selectedItem: citySelectedItem,
                               list: listCities,
                               selected: (value) {
                                 city = value;
@@ -258,6 +305,7 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                           }
                           {
                             return DropDownSearchWidget(
+                              selectedItem: countiesSelectedItem,
                               list: listCounties,
                               selected: (value) {
                                 counties = value;
@@ -267,16 +315,82 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                           }
                         },
                       ),
+                      CustomTextFieldWithLabel(
+                        labelText: 'العنوان',
+                        controller: location,
+                      ),
 
                       // CustomTextFieldWithLabel(
                       //   controller: location,
                       //   labelText: 'العنوان',
                       // ),
                       SizedBox(height: 20.h),
+                      // somewhere in your build(), e.g. after the image picker / before the Sign Up button:
+                      BlocConsumer<UpdateUserDataCubit, UpdateUserDataState>(
+                          listener: (context, state) {
+                            if (state is UpdateLocationSuccess) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("تم تعديل الموقع للموقع الحالى", style: TextStyle(color: Colors.white)),
+                                  duration: Duration(seconds: 2),
+                                  behavior: SnackBarBehavior.floating,             // makes it float above content
+                                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  backgroundColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+
+                                ),
+                              );
+                            }
+                            if (state is UpdateLocationError) {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                    state.message!,
+                                  )));
+                            }
+                          }, builder: (context, state) {
+                            if(state is UpdateLocationLoading){
+                              return Center(child: CircularProgressIndicator(),);
+                            }
+                        return ElevatedButton.icon(
+                          onPressed: () async {
+                            await _initLocation().then((v){
+                              BlocProvider.of<UpdateUserDataCubit>(context).updateLocation(lat:_position!.latitude.toString(), long: _position!.longitude.toString());
+                            });            // recall your location helper
+                          },
+                          icon: const Icon(Icons.my_location,color: Colors.white,),
+                          label: const Text('تحديث الموقع', style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0XFF13A9CA),
+                            minimumSize: Size(200.w, 48.h),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                          ),
+                        );
+                      }),
+
+
+                      SizedBox(height: 15.h),
+
+
                       BlocConsumer<UpdateUserDataCubit, UpdateUserDataState>(
                           listener: (context, state) {
                         if (state is UpdateUserDataSuccess) {
-                          // Navigator.pushReplacement(
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("تم تعديل البيانات", style: TextStyle(color: Colors.white)),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,             // makes it float above content
+                              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              backgroundColor: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+
+                            ),
+                          );
+                             // Navigator.pushReplacement(
                           //   context,
                           //   MaterialPageRoute(
                           //     builder: (context) => LoginScreen(),
@@ -284,10 +398,6 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                           // );
                         }
                         if (state is UpdateUserDataError) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                            state.message!,
-                          )));
                         }
                       }, builder: (context, state) {
                         return ElevatedButton(
@@ -331,14 +441,14 @@ class _UpdateUserDataState extends State<UpdateUserData> {
                           ? const Center(child: CircularProgressIndicator())
                           : ElevatedButton(
                               onPressed: () async {
-                                if (_formKey.currentState?.validate() ??
-                                    false) {
+                                if (_formKey.currentState?.validate() ?? false) {
                                   List<File> imageFiles = _images!
                                       .map((xfile) => File(xfile.path))
                                       .toList();
                                   UpdateUserDataCubit.get(context).signUp(
                                     nameClient: name.text,
                                     phone: phone.text,
+                                    location: location.text,
                                     otherPhone: phone2.text,
                                     governorate: government.toString(),
                                     City: city.toString(),

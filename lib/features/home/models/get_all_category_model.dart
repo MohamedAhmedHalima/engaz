@@ -1,98 +1,102 @@
-class GetAllCategoryModel {
-  GetAllCategoryModel({
-    required this.message,
-    required this.status,
-    required this.data,
-  });
+// get_all_category_model.dart
 
+class GetAllCategoryModel {
   final String? message;
   final bool? status;
   final Data? data;
 
-  factory GetAllCategoryModel.fromJson(Map<String, dynamic> json){
+  GetAllCategoryModel({
+    this.message,
+    this.status,
+    this.data,
+  });
+
+  factory GetAllCategoryModel.fromJson(Map<String, dynamic> json) {
     return GetAllCategoryModel(
-      message: json["message"],
-      status: json["status"],
-      data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      message: json['message'] as String?,
+      status: json['status'] as bool?,
+      data: json['data'] != null
+          ? Data.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "message": message,
-    "status": status,
-    "data": data?.toJson(),
-  };
-
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'status': status,
+      'data': data?.toJson(),
+    };
+  }
 }
 
 class Data {
-  Data({
-    required this.data,
-    required this.pagination,
-  });
-
-  final List<DataCategory> data;
+  final List<DataCategory>? data;
   final Pagination? pagination;
 
-  factory Data.fromJson(Map<String, dynamic> json){
+  Data({
+    this.data,
+    this.pagination,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      data: json["data"] == null ? [] : List<DataCategory>.from(json["data"]!.map((x) => DataCategory.fromJson(x))),
-      pagination: json["pagination"] == null ? null : Pagination.fromJson(json["pagination"]),
+      data: (json['data'] as List<dynamic>?)
+          ?.map((item) => DataCategory.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'] as Map<String, dynamic>)
+          : null,
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "data": data.map((x) => x?.toJson()).toList(),
-    "pagination": pagination?.toJson(),
-  };
-
+  Map<String, dynamic> toJson() {
+    return {
+      'data': data?.map((e) => e.toJson()).toList(),
+      'pagination': pagination?.toJson(),
+    };
+  }
 }
 
 class DataCategory {
-  DataCategory({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.image,
-    required this.subcategories,
-  });
-
   final int? id;
   final String? name;
   final String? description;
   final String? image;
-  final List<DataCategory> subcategories;
+  final List<DataCategory>? subcategories;
 
-  factory DataCategory.fromJson(Map<String, dynamic> json){
+  DataCategory({
+    this.id,
+    this.name,
+    this.description,
+    this.image,
+    this.subcategories,
+  });
+
+  factory DataCategory.fromJson(Map<String, dynamic> json) {
     return DataCategory(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      image: json["image"],
-      subcategories: json["subcategories"] == null ? [] : List<DataCategory>.from(json["subcategories"]!.map((x) => DataCategory.fromJson(x))),
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      image: json['image'] as String?,
+      subcategories: (json['subcategories'] as List<dynamic>?)
+          ?.map((item) => DataCategory.fromJson(item as Map<String, dynamic>))
+          .toList(),
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "description": description,
-    "image": image,
-    "subcategories": subcategories.map((x) => x?.toJson()).toList(),
-  };
-
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'image': image,
+      'subcategories': subcategories?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class Pagination {
-  Pagination({
-    required this.total,
-    required this.count,
-    required this.perPage,
-    required this.currentPage,
-    required this.lastPage,
-    required this.totalPages,
-  });
-
   final int? total;
   final int? count;
   final int? perPage;
@@ -100,24 +104,34 @@ class Pagination {
   final int? lastPage;
   final int? totalPages;
 
-  factory Pagination.fromJson(Map<String, dynamic> json){
+  Pagination({
+    this.total,
+    this.count,
+    this.perPage,
+    this.currentPage,
+    this.lastPage,
+    this.totalPages,
+  });
+
+  factory Pagination.fromJson(Map<String, dynamic> json) {
     return Pagination(
-      total: json["total"],
-      count: json["count"],
-      perPage: json["per_page"],
-      currentPage: json["current_page"],
-      lastPage: json["last_page"],
-      totalPages: json["total_pages"],
+      total: json['total'] as int?,
+      count: json['count'] as int?,
+      perPage: json['per_page'] as int?,
+      currentPage: json['current_page'] as int?,
+      lastPage: json['last_page'] as int?,
+      totalPages: json['total_pages'] as int?,
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "total": total,
-    "count": count,
-    "per_page": perPage,
-    "current_page": currentPage,
-    "last_page": lastPage,
-    "total_pages": totalPages,
-  };
-
+  Map<String, dynamic> toJson() {
+    return {
+      'total': total,
+      'count': count,
+      'per_page': perPage,
+      'current_page': currentPage,
+      'last_page': lastPage,
+      'total_pages': totalPages,
+    };
+  }
 }

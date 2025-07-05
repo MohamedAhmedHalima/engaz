@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../offers/widgets/card_item_for_offeres.dart';
 import '../models/get_all_category_model.dart';
 
 class SpacificCategorieScreen extends StatefulWidget {
@@ -36,27 +37,21 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
   int? _selectedSubCategoryId;
   int? _selectedCompanyId;
 
-  Future<List<dynamic>?> _loadCachedSubCategories() async {
-    return await SharedPreferencesHelper.getSUbCategories();
-  }
 
-  Future<void> _saveSubCategories(List<dynamic> subCategories) async {
-    await SharedPreferencesHelper.saveSubCategories(widget.subCategoryList);
-  }
+
   @override
   void initState() {
     // TODO: implement initState
     _selectedSubCategoryId = widget.id;
     BlocProvider.of<GetProductsCubit>(context).getProduct(
-        // category: widget.id,
-        getProductesEndpoint:  'products/category/$_selectedSubCategoryId',
-
-      );
+      getProductesEndpoint: "products?category_id=$_selectedSubCategoryId"
+    );
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -80,176 +75,54 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
           ),
         ),
       ),
-      body: FutureBuilder(
-        future: _loadCachedSubCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            List<dynamic>? cachedSubCategories = snapshot.data;
+      body: CardItemForOfferes(body: Column(
+        children: [
+          CustomeSearchBar(),
+          SizedBox(height: 30.h),
 
-            return SingleChildScrollView(
+          if (widget.subCategoryList.isNotEmpty) ...[
+            _buildSubCategoriesList(widget.subCategoryList),
+            SizedBox(height: 10.h),
+          ],
+          BlocProvider(
+            create: (context) => GetAllCompanyCubit()
+              ..getAllComapny(
+                  url:
+                  "companies?category_id=$_selectedSubCategoryId&show_category_page=1"),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
+
                 children: [
-                  const CustomeSearchBar(),
-                  SizedBox(height: 30.h),
-                  // BlocBuilder<GetSubCategoryCubit, GetSubCategoryState>(
-                  //   builder: (context, state) {
-                  //     if (state is GetSubCategoryLoading) {
-                  //       return const Center(
-                  //           child: CircularProgressIndicator());
-                  //     } else if (state is GetSubCategoryError) {
-                  //       return Center(child: Text(state.message ?? ''));
-                  //     } else if (state is GetSubCategorySuccess) {
-                  //       final subCategories =
-                  //           state.subCategoriesModel.subCategories;
-                  //       _saveSubCategories(
-                  //         subCategories
-                  //             .map((subCategory) => subCategory.toJson())
-                  //             .toList(),
-                  //       );
-                  //
-                  //       return _buildSubCategoriesList(subCategories);
-                  //     } else if (cachedSubCategories != null) {
-                  //       final subCategories = cachedSubCategories
-                  //           .map((json) => SubCategoriesModel.fromJson(json))
-                  //           .toList();
-                  //       return _buildSubCategoriesList(subCategories);
-                  //     } else {
-                  //       return const SizedBox.shrink();
-                  //     }
-                  //   },
-                  // ),
-                 if(widget.subCategoryList.isNotEmpty)...[
-                _buildSubCategoriesList(widget.subCategoryList),
-                  SizedBox(height: 10.h),],
-                  BlocProvider(
-                    create: (context) => GetAllCompanyCubit()
-                      ..getAllComapny(category:_selectedSubCategoryId),
-                    child:
-                    BlocBuilder<GetAllCompanyCubit, GetAllCompanyState>(
-                      builder: (context, state) {
-                        if (state is GetAllCompanyLoading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (state is GetAllCompanyError) {
-                          return Center(child: Text(state.message ?? ""));
-                        } else if (state is GetAllCompanySuccess) {
-                          final companies =
-                              state.getAllCompanyModel.data;
-                          return Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    "الشركات",
-                                    style: GoogleFonts.cairo(
-                                      textStyle: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20.h),
-                                SizedBox(
-                                  height: 60,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: companies!.length,
-                                    separatorBuilder: (_, __) =>
-                                        SizedBox(width: 10.w),
-                                    itemBuilder: (context, index) {
-                                      final company = companies[index];
-                                      return InkWell(
-                                        onTap: (){
-                                          BlocProvider.of<GetProductsCubit>(context).getProduct(
-
-                                            getProductesEndpoint:  'products?company_id=${ companies[index].id}&category_id=${_selectedSubCategoryId}',
-
-                                          );
-                                        },
-                                        child: TradeMarkItem(company: company),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "الشركات",
+                      style: GoogleFonts.cairo(
+                        textStyle: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  BlocBuilder<GetProductsCubit, GetProductsState>(
-                    builder: (context, state) {
-                      if (state is GetProductsLoading) {
-                        return const Center(
-                            child: CircularProgressIndicator());
-                      } else if (state is GetProductsError) {
-                        return Center(child: Text(state.message ?? ""));
-                      } else if (state is GetProductsSuccess) {
-                        final products = state.productModel.data!.products;
-                        return Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 15),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  " منتجات متشابها",
-                                  style: GoogleFonts.cairo(
-                                    textStyle: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              SizedBox(
-                                height: 337,
-                                width: double.infinity,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: products!.length,
-                                  separatorBuilder: (_, __) =>
-                                      SizedBox(width: 10.w),
-                                  itemBuilder: (context, index) {
-                                    final product = products[index];
-                                    return Items(product: product);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  )
-                  // BlocProvider(
-                  //   create: (context) => GetProductsCubit()
-                  //     ..getProduct(
-                  //       category: widget.id,
-                  //       getProductesEndpoint:  'products/category/$_selectedSubCategoryId',
-                  //
-                  //     ),
-                  //   child: ,
-                  // )
+                  CompanyListView(onTap:  (companies) {
+                    BlocProvider.of<GetProductsCubit>(
+                        context)
+                        .getProduct(
+                      getProductesEndpoint:
+                      'products?company_id=${companies!.id}&category_id=${_selectedSubCategoryId}',
+                    );
+                  },),
                 ],
               ),
-            );
-          }
-        },
-      ),
-    );
+            ),
+          ),
+          SizedBox(height: 20.h),
+        ],
+      )
+    ) );
   }
 
   Widget _buildSubCategoriesList(List<dynamic> subCategories) {
@@ -269,8 +142,9 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
 
               // إعادة تحميل المنتجات بناءً على subCategoryId
               context.read<GetProductsCubit>().getProduct(
-                    id: _selectedSubCategoryId,
-                  );
+                  getProductesEndpoint: "products?category_id=$_selectedSubCategoryId"
+
+              );
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

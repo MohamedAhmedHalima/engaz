@@ -7,13 +7,17 @@ final class UpdateUserDataInitial extends UpdateUserDataState {}
 
 final class UpdateUserDataLoading extends UpdateUserDataState {}
 
-final class UpdateUserDataSuccess extends UpdateUserDataState {
-final SignUpModel signUpModel;
-
-UpdateUserDataSuccess({required this.signUpModel});
-}
+final class UpdateUserDataSuccess extends UpdateUserDataState {}
 
 final class UpdateUserDataError extends UpdateUserDataState {
 final String? message;
 UpdateUserDataError({required this.message});
+}
+final class UpdateLocationLoading extends UpdateUserDataState {}
+
+final class UpdateLocationSuccess extends UpdateUserDataState {}
+
+final class UpdateLocationError extends UpdateUserDataState {
+final String? message;
+UpdateLocationError({required this.message});
 }
