@@ -34,7 +34,6 @@ class GetBundlesCubit extends Cubit<GetBundlesState> {
 
       if (response?.statusCode == 200) {
         getBundlesModel = BundlesModel.fromJson(response?.data);
-        print(getBundlesModel);
 
         if (getBundlesModel?.data!.isEmpty ?? true) {
           emit(GetBundlesError(message: 'No categories found.'));

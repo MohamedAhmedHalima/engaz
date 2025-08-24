@@ -468,7 +468,6 @@ class _OfferItemGridState extends State<OfferItemGrid> {
                       ),
                     ),
                     if (!widget.isBundle)... [
-
                     SizedBox(
                       height: 5.h,
                     ),

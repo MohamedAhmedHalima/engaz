@@ -37,6 +37,7 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
   int? _selectedSubCategoryId;
   int? _selectedCompanyId;
 
+  late final GetAllCompanyCubit _companyCubit;
 
 
   @override
@@ -46,6 +47,10 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
     BlocProvider.of<GetProductsCubit>(context).getProduct(
       getProductesEndpoint: "products?category_id=$_selectedSubCategoryId"
     );
+    _companyCubit = GetAllCompanyCubit()
+      ..getAllComapny(
+          url: "companies?category_id=$_selectedSubCategoryId&show_category_page=1"
+      );
     super.initState();
   }
 
@@ -84,30 +89,28 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
             _buildSubCategoriesList(widget.subCategoryList),
             SizedBox(height: 10.h),
           ],
-          BlocProvider(
-            create: (context) => GetAllCompanyCubit()
-              ..getAllComapny(
-                  url:
-                  "companies?category_id=$_selectedSubCategoryId&show_category_page=1"),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
+         Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
 
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      "الشركات",
-                      style: GoogleFonts.cairo(
-                        textStyle: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    "الشركات",
+                    style: GoogleFonts.cairo(
+                      textStyle: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  CompanyListView(onTap:  (companies) {
+                ),
+                SizedBox(height: 20.h),
+                BlocProvider.value(
+                  value: _companyCubit,
+
+                  child:CompanyListView(onTap:  (companies) {
                     BlocProvider.of<GetProductsCubit>(
                         context)
                         .getProduct(
@@ -115,8 +118,9 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
                       'products?company_id=${companies!.id}&category_id=${_selectedSubCategoryId}',
                     );
                   },),
-                ],
-              ),
+                )
+
+              ],
             ),
           ),
           SizedBox(height: 20.h),
@@ -139,7 +143,10 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
               setState(() {
                 _selectedSubCategoryId = subCategory.id;
               });
-
+              _companyCubit.getAllComapny(
+                  url:
+                  "companies?category_id=$_selectedSubCategoryId&show_category_page=1"
+              );
               // إعادة تحميل المنتجات بناءً على subCategoryId
               context.read<GetProductsCubit>().getProduct(
                   getProductesEndpoint: "products?category_id=$_selectedSubCategoryId"
@@ -157,5 +164,11 @@ class _SpacificCategorieScreenState extends State<SpacificCategorieScreen> {
         },
       ),
     );
+  }
+  @override
+  void dispose() {
+    // هنا بنقفل الكيوبت
+    _companyCubit.close();
+    super.dispose();
   }
 }

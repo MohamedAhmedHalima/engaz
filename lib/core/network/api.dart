@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 
 class DioHelper {
   static late final Dio dio;
-
+  //    static String baseUrl = 'https://orderk.shop/api';
   /// يجب استدعاءه مرة واحدة في بداية التطبيق (مثلاً في main)
   static void init() {
     final options = BaseOptions(
-      baseUrl: 'https://order.webbing-agency.com/api/',
+      baseUrl: 'https://orderk.shop/api/',
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
       receiveDataWhenStatusError: true,
