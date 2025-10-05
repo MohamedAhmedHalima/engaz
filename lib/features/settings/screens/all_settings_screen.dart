@@ -11,6 +11,7 @@ import '../widgets/logout_card_item.dart';
 import '../widgets/market_detailes_card_item.dart';
 import '../widgets/password_card_item.dart';
 import '../widgets/user_details_card_item.dart';
+import 'delete_Account.dart';
 
 class AllSettingsScreen extends StatelessWidget {
   static const String routeName = "AllSettingsScreen";
@@ -26,10 +27,10 @@ class AllSettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               const CustomeAppBar(),
-                CustomeSearchBar(),
+              CustomeSearchBar(),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Row(children: [
@@ -74,6 +75,10 @@ class AllSettingsScreen extends StatelessWidget {
                 height: 20.h,
               ),
               const MarketDetailesCardItem(),
+              SizedBox(
+                height: 20.h,
+              ),
+              const DeleteAccountItem(),
               SizedBox(
                 height: 20.h,
               ),

@@ -85,7 +85,7 @@ class _CustomeSliderState extends State<CustomeSlider> {
               return  Column(
                 children: [
                   SizedBox(
-                    width: 343.w,
+                    // width: 343.w,
                     child: CarouselSlider(
                       items: _images.map((imagePath) {
                         return  Image.asset(imagePath, fit: BoxFit.contain) ;
@@ -95,8 +95,8 @@ class _CustomeSliderState extends State<CustomeSlider> {
                         height: 160.h,
                         enlargeCenterPage: true,
                         autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        viewportFraction: 0.8,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        viewportFraction: 1.0,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _currentIndex = index;
@@ -116,7 +116,7 @@ class _CustomeSliderState extends State<CustomeSlider> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _currentIndex == entry.key
-                              ? Color(0XFF13A9CA)
+                              ? const Color(0XFF13A9CA)
                               : Colors.grey.withOpacity(0.5),
                         ),
                       );
@@ -128,7 +128,7 @@ class _CustomeSliderState extends State<CustomeSlider> {
             return  Column(
               children: [
                 SizedBox(
-                  width: 343.w,
+                  // width: 343.w,
                   child: CarouselSlider(
                     items: sliderModel.map((imagePath) {
 
@@ -153,8 +153,8 @@ class _CustomeSliderState extends State<CustomeSlider> {
                       height: 160.h,
                       enlargeCenterPage: true,
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      viewportFraction: 0.8,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      viewportFraction: 1.0,
                       onPageChanged: (index, reason) {
                         setState(() {
                           _currentIndex = index;
@@ -174,7 +174,7 @@ class _CustomeSliderState extends State<CustomeSlider> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _currentIndex == entry.key
-                            ? Color(0XFF13A9CA)
+                            ? const Color(0XFF13A9CA)
                             : Colors.grey.withOpacity(0.5),
                       ),
                     );
@@ -184,9 +184,9 @@ class _CustomeSliderState extends State<CustomeSlider> {
             );
           }
           else {
-            return Column(
+            return const Column(
               children: [
-                const Center(child: CircularProgressIndicator()),
+                Center(child: CircularProgressIndicator()),
               ],
             );
           }
@@ -246,8 +246,8 @@ class _CustomeSliderState extends State<CustomeSlider> {
         },
       ),
     );
-      
-      
-      
+
+
+
   }
 }

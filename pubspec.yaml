@@ -41,7 +41,7 @@ dependencies:
   flutter_localization: ^0.2.0
   carousel_slider: ^5.0.0
   device_preview: ^1.1.0
-  file_picker: ^8.0.0
+  file_picker: ^8.0.0 #8.0.7
   dotted_border: ^2.1.0
   google_maps_flutter: ^2.5.3
   flutter_bloc: ^8.1.6

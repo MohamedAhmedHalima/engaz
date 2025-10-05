@@ -31,6 +31,7 @@ import 'features/home/cubits/get_bundles/cubit/get_bundles_cubit.dart';
 import 'features/home/cubits/home_slider/cubit/home_slider_cubit.dart';
 import 'features/home/screens/main_home.dart';
 import 'features/home/screens/spacific_categorie_screen.dart';
+import 'features/settings/controller/delete_account/cubit/delete_account_cubit.dart';
 import 'features/settings/controller/get_user_data/cubit/get_user_data_cubit.dart';
 import 'features/settings/controller/update_user_data/cubit/update_user_data_cubit.dart';
 import 'features/splash_screen&&on_boarding/screens/splash_screen.dart';
@@ -58,6 +59,8 @@ class Orderak extends StatelessWidget {
       splitScreenMode: true,
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => DeleteAccountCubit()),
+
           BlocProvider(create: (context) => SignUpCubit()),
           BlocProvider(create: (context) => VerifyEmailCubit()),
           BlocProvider(create: (context) => LoginCubit()),
@@ -86,8 +89,6 @@ class Orderak extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            backgroundColor: Colors.white,
-            cardTheme: CardTheme(color: Colors.white,surfaceTintColor: Colors.white,),
             scaffoldBackgroundColor: Colors.white, // 👈 يخلي كل الـ Scaffold أبيض تلقائيًا
             cardColor: Colors.white,               // 👈 الكروت تبقى بيضاء تلقائيًا
           ),
