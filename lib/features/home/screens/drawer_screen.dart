@@ -551,57 +551,57 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 //     ],
                 //   ),
                 // ),
-                // SizedBox(
-                //   height: 10.h,
-                // ),
-                // Container(
-                //   height: 0.75,
-                //   width: double.infinity,
-                //   color: const Color(0XFF7A7A7A),
-                // ),
-                // SizedBox(
-                //   height: 10.h,
-                // ),
-                // GestureDetector(
-                //   onTap: () {
-                //     setState(() {
-                //       _isTapped11 = !_isTapped11;
-                //     });
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => AllPolicesScreen()),
-                //     );
-                //   },
-                //   child: Row(
-                //     children: [
-                //       ColorFiltered(
-                //         colorFilter: _isTapped11
-                //             ? const ColorFilter.mode(
-                //                 Color(0xFF94CF29), BlendMode.srcIn)
-                //             : const ColorFilter.mode(
-                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
-                //         child: Image(
-                //           image: const AssetImage(
-                //               "assets/images/as_you_like_icon.png"),
-                //           height: 24.h,
-                //           width: 24.w,
-                //         ),
-                //       ),
-                //       SizedBox(width: 10.w),
-                //       Text(
-                //         "اوردرك على كيفك",
-                //         style: GoogleFonts.cairo(
-                //           fontWeight: FontWeight.w500,
-                //           fontSize: 16.sp,
-                //           color: _isTapped11
-                //               ? const Color(0xFF94CF29)
-                //               : const Color(0XFF7A7A7A), // Change color
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  height: 0.75,
+                  width: double.infinity,
+                  color: const Color(0XFF7A7A7A),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isTapped11 = !_isTapped11;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AllPolicesScreen()),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      ColorFiltered(
+                        colorFilter: _isTapped11
+                            ? const ColorFilter.mode(
+                                Color(0xFF94CF29), BlendMode.srcIn)
+                            : const ColorFilter.mode(
+                                Color(0XFF7A7A7A), BlendMode.dstIn),
+                        child: Image(
+                          image: const AssetImage(
+                              "assets/images/as_you_like_icon.png"),
+                          height: 24.h,
+                          width: 24.w,
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        "اوردرك على كيفك",
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          color: _isTapped11
+                              ? const Color(0xFF94CF29)
+                              : const Color(0XFF7A7A7A), // Change color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 10.h,
                 ),
