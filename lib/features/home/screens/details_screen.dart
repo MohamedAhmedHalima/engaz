@@ -1,19 +1,14 @@
 import 'package:engaz/features/home/cubits/get_productes/cubit/get_products_cubit.dart';
 import 'package:engaz/features/home/models/product_model.dart';
 import 'package:engaz/features/home/widgets/app_bar.dart';
-import 'package:engaz/features/home/widgets/details_screen_image.dart';
-import 'package:engaz/features/home/widgets/favorite_icon_and_description.dart';
 import 'package:engaz/features/home/widgets/item.dart';
 import 'package:engaz/features/home/widgets/price_and_button.dart';
-import 'package:engaz/features/home/widgets/see_more_container.dart';
-import 'package:engaz/features/home/widgets/similer_product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' show parse;
 
-import '../../cart/model/cart_model.dart';
 import '../../cart/widgets/pluse_and_minus_puttons.dart';
 import 'drawer_screen.dart';
 
