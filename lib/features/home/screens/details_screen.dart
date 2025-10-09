@@ -1,6 +1,8 @@
 import 'package:engaz/features/home/cubits/get_productes/cubit/get_products_cubit.dart';
 import 'package:engaz/features/home/models/product_model.dart';
 import 'package:engaz/features/home/widgets/app_bar.dart';
+import 'package:engaz/features/home/widgets/details_screen_image.dart';
+import 'package:engaz/features/home/widgets/favorite_icon_and_description.dart';
 import 'package:engaz/features/home/widgets/item.dart';
 import 'package:engaz/features/home/widgets/price_and_button.dart';
 import 'package:flutter/material.dart';

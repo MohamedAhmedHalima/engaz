@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/network/api.dart';
 import 'core/network/observer.dart';
+import 'features/as_you_like_order/cubits/get_policies/get_policies_cubit.dart';
+import 'features/as_you_like_order/cubits/update_policies/update_policies_bloc.dart';
 import 'features/auth/reset_password/view/enter_phone_number_screen.dart';
 import 'features/auth/reset_password/view/in_put_new_password.dart';
 import 'features/auth/reset_password/view/last_screen.dart';
@@ -60,6 +62,8 @@ class Orderak extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => DeleteAccountCubit()),
+          BlocProvider(create: (context) => GetAllPoliciesCubit()),
+          BlocProvider(create: (context) => UpdatePoliciesCubit()),
 
           BlocProvider(create: (context) => SignUpCubit()),
           BlocProvider(create: (context) => VerifyEmailCubit()),
