@@ -34,15 +34,15 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0XFF13A9CA),
-          ),
-        ),
+        // leading: GestureDetector(
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //   },
+        //   child: const Icon(
+        //     Icons.arrow_back_ios,
+        //     color: Color(0XFF13A9CA),
+        //   ),
+        // ),
       ),
       body: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) async {
