@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../settings/widgets/cutome_text_field.dart';
+import '../../../login/screens/login_screen.dart';
 import '../widgets/dropdown_widget.dart';
 import '../widgets/get_current_location.dart';
 
@@ -70,36 +71,110 @@ class _SignUpScreenState extends State<SignUpScreen> {
     GetBusinessTypesCubit.get(context).getBusinessTypes();
   }
 
+
+
   Future<void> _initLocation() async {
     try {
-      // 1. تأكد أنّ خدمة الموقع مفعّلة
-      if (!await Geolocator.isLocationServiceEnabled()) {
-        await Geolocator.openLocationSettings();
-        throw 'Location services are disabled.';
+      // 1) لا تفتح الإعدادات تلقائياً إذا كانت الخدمة مقفولة
+      final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        await _showExplainDialog(
+          context,
+          title: 'تفعيل خدمة الموقع',
+          message: 'لتسجيل حسابجديد يجب تفعيل خدمة الموقع. يمكنك تفعيلها من الإعدادات.',
+          settingsAction: () async {
+            // يفتح الإعدادات فقط بعد ضغط المستخدم
+            await Geolocator.openLocationSettings();
+          },
+        );
+        return; // أخرج بدون إجبار المستخدم
       }
 
-      // 2. تحقق واطلب الصلاحيات
+      // 2) تحقّق من الإذن
       LocationPermission perm = await Geolocator.checkPermission();
+
       if (perm == LocationPermission.denied) {
+        // (اختياري) شاشة تمهيدية قبل الطلب لتوضيح السبب
+        // لا تفتح الإعدادات هنا؛ فقط اطلب الإذن النظامي
         perm = await Geolocator.requestPermission();
-        if (perm == LocationPermission.denied) {
-          throw 'Location permissions are denied';
-        }
-      }
-      if (perm == LocationPermission.deniedForever) {
-        await Geolocator.openAppSettings();
-        throw 'Location permissions are permanently denied.';
       }
 
-      // 3. احصل على الموقع
-      Position pos = await Geolocator.getCurrentPosition(
+      if (perm == LocationPermission.denied) {
+        // المستخدم لسه رافض → لا تفتح الإعدادات تلقائي
+        await _showExplainSnackBar(
+          context,
+          'يحتاج  التسجيل إذن الوصول للموقع. يمكنك تفعيله من الإعدادات لاحقًا.',
+        );
+        return;
+      }
+
+      if (perm == LocationPermission.deniedForever) {
+        // مستخدم اختار "Don't Allow" بشكل دائم → اعرض دعوة لطيفة بزر يفتح الإعدادات
+        await _showExplainDialog(
+          context,
+          title: 'السماح بالوصول للموقع',
+          message:
+          'قمت برفض الإذن سابقًا. هذه الميزة لن تعمل بدون إذن الموقع. هل تريد فتح الإعدادات للسماح؟',
+          settingsAction: () async {
+            await Geolocator.openAppSettings();
+          },
+        );
+        return;
+      }
+
+      // 3) الإذن متاح → احصل على الموقع
+      final pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
       setState(() => _position = pos);
     } catch (e) {
-      print(e);
+      debugPrint('[Location] $e');
       setState(() => _error = e.toString());
     }
+  }
+
+// واجهات مساعدة لشرح السبب مع زر يفتح الإعدادات باختيار المستخدم
+  Future<void> _showExplainDialog(
+      BuildContext context, {
+        required String title,
+        required String message,
+        required Future<void> Function() settingsAction,
+      }) async {
+    if (!context.mounted) return;
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {   Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute<void>(builder: (BuildContext context) => LoginScreen()),
+                  (Route<void> route) => false,
+            );},
+            child: const Text('لاحقًا'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(ctx).pop();
+              await settingsAction(); // فتح الإعدادات قرار من المستخدم
+            },
+            child: const Text('فتح الإعدادات'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showExplainSnackBar(BuildContext context, String text) async {
+    if (!context.mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (BuildContext context) => LoginScreen()),
+          (Route<void> route) => false,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(text)),
+    );
   }
 
   @override

@@ -664,105 +664,105 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 SizedBox(
                   height: 10.h,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped13 = !_isTapped13;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotificationsScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped13
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage(
-                              "assets/images/notification.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        " الإشعارات",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped13
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isTapped14 = !_isTapped14;
-                    });
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MyPurchasesScreen()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: _isTapped14
-                            ? const ColorFilter.mode(
-                                Color(0xFF94CF29), BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Color(0XFF7A7A7A), BlendMode.dstIn),
-                        child: Image(
-                          image: const AssetImage("assets/images/bag.png"),
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Text(
-                        "مشترياتى",
-                        style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: _isTapped14
-                              ? const Color(0xFF94CF29)
-                              : const Color(0XFF7A7A7A), // Change color
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Container(
-                  height: 0.75,
-                  width: double.infinity,
-                  color: const Color(0XFF7A7A7A),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped13 = !_isTapped13;
+                //     });
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => NotificationsScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped13
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage(
+                //               "assets/images/notification.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         " الإشعارات",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped13
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       _isTapped14 = !_isTapped14;
+                //     });
+                //
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => MyPurchasesScreen()),
+                //     );
+                //   },
+                //   child: Row(
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: _isTapped14
+                //             ? const ColorFilter.mode(
+                //                 Color(0xFF94CF29), BlendMode.srcIn)
+                //             : const ColorFilter.mode(
+                //                 Color(0XFF7A7A7A), BlendMode.dstIn),
+                //         child: Image(
+                //           image: const AssetImage("assets/images/bag.png"),
+                //           height: 24.h,
+                //           width: 24.w,
+                //         ),
+                //       ),
+                //       SizedBox(width: 10.w),
+                //       Text(
+                //         "مشترياتى",
+                //         style: GoogleFonts.cairo(
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 16.sp,
+                //           color: _isTapped14
+                //               ? const Color(0xFF94CF29)
+                //               : const Color(0XFF7A7A7A), // Change color
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                // Container(
+                //   height: 0.75,
+                //   width: double.infinity,
+                //   color: const Color(0XFF7A7A7A),
+                // ),
               ],
             ),
           ),
